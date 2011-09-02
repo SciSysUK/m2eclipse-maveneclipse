@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.core.project.configurator.AbstractCustomizableLifecycleMapping;
 import org.eclipse.m2e.core.project.configurator.AbstractProjectConfigurator;
 import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
-import org.eclipse.m2e.maveneclipse.configuration.Configuration;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfigurationHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,19 +56,24 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 	}
 
 	private void configure(ProjectConfigurationRequest request, IProgressMonitor monitor, Plugin plugin) {
-		Configuration configuration = new ConfigurationAdapter(plugin);
-		handler.handle(configuration);
+		MavenEclipseContext context = new MavenEclipseContextImpl();
+		handler.handle(context);
 	}
 
 	private boolean isMavenEclipsePlugin(Plugin plugin) {
 		return GROUP_ID.equals(plugin.getGroupId()) && ARTIFACT_ID.equals(plugin.getArtifactId());
 	}
 
-	private static class ConfigurationAdapter implements Configuration {
+	private static class MavenEclipseContextImpl implements MavenEclipseContext {
+		public MavenEclipseConfiguration getConfiguration() {
+			return null;
+		}
+	}
 
+	private static class ConfigurationImpl implements MavenEclipseConfiguration {
 		private Xpp3Dom dom;
 
-		public ConfigurationAdapter(Plugin plugin) {
+		public ConfigurationImpl(Plugin plugin) {
 			this.dom = (Xpp3Dom) plugin.getConfiguration();
 		}
 	}

@@ -15,12 +15,13 @@
  */
 package org.eclipse.m2e.maveneclipse.configuration.sectionhandlers;
 
-import org.eclipse.m2e.maveneclipse.configuration.Configuration;
+import org.eclipse.m2e.maveneclipse.MavenEclipseConfiguration;
+import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfigurationHandler;
 
 /**
  * Strategy interface called by {@link MavenEclipseConfigurationHandler} that can handle one particular section of the
- * <tt>maven-eclipse-plugin</tt> {@link Configuration}.
+ * <tt>maven-eclipse-plugin</tt> {@link MavenEclipseConfiguration}.
  * 
  * @author Alex Clarke
  * @author Phillip Webb
@@ -28,18 +29,19 @@ import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfigurationHandl
 public interface ConfigurationSectionHandler {
 
 	/**
-	 * Determines if the handler can deal with the specified {@link Configuration}.
-	 * @param configuration the configuration
+	 * Determines if the handler can deal with the {@link MavenEclipseConfiguration} available in the specified
+	 * {@link MavenEclipseContext}.
+	 * @param context the context
 	 * @return <tt>true</tt> if the handler supports the configuration
-	 * @see #handle(Configuration)
+	 * @see #handle(MavenEclipseContext)
 	 */
-	boolean isSupported(Configuration configuration);
+	boolean isSupported(MavenEclipseContext context);
 
 	/**
-	 * Handle the {@link Configuration} applying the relevant section to the m2e eclipse project. This method will only
-	 * be called when {@link #isSupported} returns <tt>true</tt>.
-	 * @param configuration the configuration containing settings to apply
-	 * @see #isSupported(Configuration)
+	 * Handle the {@link MavenEclipseConfiguration} applying the relevant section to the m2e eclipse project. This
+	 * method will only be called when {@link #isSupported} returns <tt>true</tt>.
+	 * @param context the context
+	 * @see #isSupported(MavenEclipseContext)
 	 */
-	void handle(Configuration configuration);
+	void handle(MavenEclipseContext context);
 }

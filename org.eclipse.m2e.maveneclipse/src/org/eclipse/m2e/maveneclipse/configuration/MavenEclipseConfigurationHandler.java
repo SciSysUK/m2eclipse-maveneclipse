@@ -15,20 +15,22 @@
  */
 package org.eclipse.m2e.maveneclipse.configuration;
 
+import org.eclipse.m2e.maveneclipse.MavenEclipseConfiguration;
+import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
+
 /**
- * Performs the actual work of configuring a m2e eclipse project from {@link Configuration} defined by the
- * <tt>maven-eclipse-plugin</tt>.
+ * Performs the actual work of configuring a m2e eclipse project from {@link MavenEclipseConfiguration} in the specified
+ * {@link MavenEclipseContext} as defined by the <tt>maven-eclipse-plugin</tt>.
  * 
  * @author Alex Clarke
  * @author Phillip Webb
  */
 public class MavenEclipseConfigurationHandler {
 
-	public void handle(Configuration configuration) {
-		System.out.println("Hello");
-		handleSections(configuration);
+	public void handle(MavenEclipseContext context) {
+		handleSections(context);
 	}
 
-	private void handleSections(Configuration configuration) {
+	private void handleSections(MavenEclipseContext context) {
 	}
 }
