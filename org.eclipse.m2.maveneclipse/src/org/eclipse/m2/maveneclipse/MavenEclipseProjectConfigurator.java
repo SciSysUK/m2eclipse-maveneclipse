@@ -15,11 +15,17 @@
  */
 package org.eclipse.m2.maveneclipse;
 
+import org.apache.maven.model.Plugin;
+import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.m2.maveneclipse.configuration.Configuration;
 import org.eclipse.m2.maveneclipse.configuration.MavenEclipseConfigurationHandler;
+import org.eclipse.m2e.core.project.configurator.AbstractCustomizableLifecycleMapping;
 import org.eclipse.m2e.core.project.configurator.AbstractProjectConfigurator;
 import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * {@link AbstractProjectConfigurator Project configurator} that applies configuration defined by the
@@ -32,7 +38,39 @@ import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
  */
 public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator {
 
+	private static Logger log = LoggerFactory.getLogger(AbstractCustomizableLifecycleMapping.class);
+
+	private static final String GROUP_ID = "org.apache.maven.plugins";
+	private static final String ARTIFACT_ID = "maven-eclipse-plugin";
+
+	private MavenEclipseConfigurationHandler handler = new MavenEclipseConfigurationHandler();
+
 	@Override
 	public void configure(ProjectConfigurationRequest request, IProgressMonitor monitor) throws CoreException {
+		log.debug("Checking for " + GROUP_ID + ":" + ARTIFACT_ID + " plugin");
+		for (Plugin plugin : request.getMavenProject().getBuildPlugins()) {
+			if (isMavenEclipsePlugin(plugin)) {
+				log.debug("Configuring m2e project for " + GROUP_ID + ":" + ARTIFACT_ID + " plugin");
+				configure(request, monitor, plugin);
+			}
+		}
+	}
+
+	private void configure(ProjectConfigurationRequest request, IProgressMonitor monitor, Plugin plugin) {
+		Configuration configuration = new ConfigurationAdapter(plugin);
+		handler.handle(configuration);
+	}
+
+	private boolean isMavenEclipsePlugin(Plugin plugin) {
+		return GROUP_ID.equals(plugin.getGroupId()) && ARTIFACT_ID.equals(plugin.getArtifactId());
+	}
+
+	private static class ConfigurationAdapter implements Configuration {
+
+		private Xpp3Dom dom;
+
+		public ConfigurationAdapter(Plugin plugin) {
+			this.dom = (Xpp3Dom) plugin.getConfiguration();
+		}
 	}
 }

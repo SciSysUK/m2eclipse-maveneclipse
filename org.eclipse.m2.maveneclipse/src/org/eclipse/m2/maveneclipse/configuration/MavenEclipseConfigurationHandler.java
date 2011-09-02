@@ -25,6 +25,7 @@ package org.eclipse.m2.maveneclipse.configuration;
 public class MavenEclipseConfigurationHandler {
 
 	public void handle(Configuration configuration) {
+		System.out.println("Hello");
 		handleSections(configuration);
 	}
 

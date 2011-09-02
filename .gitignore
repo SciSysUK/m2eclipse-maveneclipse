@@ -4,3 +4,4 @@ target/
 bin/
 .project
 .classpath
+org.eclipse.m2.maveneclipse.tests/lib
