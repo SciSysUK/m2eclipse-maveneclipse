@@ -1,12 +1,10 @@
 Manifest-Version: 1.0
-Fragment-Host: org.eclipse.m2e.maveneclipse;bundle-version="0.0.0.qualifier"
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
-Bundle-SymbolicName: org.eclipse.m2e.maveneclipse
+Bundle-SymbolicName: org.eclipse.m2e.maveneclipse.tests
 Bundle-Version: 0.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-Vendor: %Bundle-Vendor
 Require-Bundle: org.junit;bundle-version="4.8.2",
  org.eclipse.m2e.tests.common;bundle-version="1.0.0"
-Bundle-ClassPath: .,
- lib/mockito-all.jar
+Bundle-Vendor: %Bundle-Vendor
+Bundle-ClassPath: lib/mockito-all.jar
