@@ -1,0 +1,1 @@
+Applies configuration from the pom.xml file defined by the maven-eclipse-plugin to m2e eclipse projects.
