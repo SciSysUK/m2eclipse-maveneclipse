@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lifecycleMappingMetadata>
+	<pluginExecutions>
+		<pluginExecution>
+			<!-- The maven-eclipse-plugin goals are not usually bound to any lifecycle 
+				so instead we hook into the maven-clean-plugin -->
+			<pluginExecutionFilter>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<versionRange>[1.0,)</versionRange>
+				<goals>
+					<goal>clean</goal>
+				</goals>
+			</pluginExecutionFilter>
+			<action>
+				<configurator>
+					<id>org.eclipse.m2.maveneclipse.configurator</id>
+				</configurator>
+			</action>
+		</pluginExecution>
+	</pluginExecutions>
+</lifecycleMappingMetadata>

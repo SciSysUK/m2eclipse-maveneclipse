@@ -10,9 +10,9 @@
 		<tycho-version>0.12.0</tycho-version>
 	</properties>
 	<modules>
-		<module>org.eclipse.m2.maveneclipse</module>
-		<module>org.eclipse.m2.maveneclipse.feature</module>
-		<module>org.eclipse.m2.maveneclipse.tests</module>
+		<module>org.eclipse.m2e.maveneclipse</module>
+		<module>org.eclipse.m2e.maveneclipse.feature</module>
+		<module>org.eclipse.m2e.maveneclipse.tests</module>
 	</modules>
 	<build>
 		<plugins>
