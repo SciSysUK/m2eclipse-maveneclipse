@@ -7,7 +7,7 @@
 		<artifactId>m2eclipse-maveneclipse</artifactId>
 		<version>0.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>org.eclipse.m2.maveneclipse.feature</artifactId>
+	<artifactId>org.eclipse.m2e.maveneclipse.feature</artifactId>
 	<packaging>pom</packaging>
 	<name>m2e connector for eclipse-maven-plugin feature</name>
 </project>

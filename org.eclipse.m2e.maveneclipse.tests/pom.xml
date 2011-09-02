@@ -7,7 +7,7 @@
 		<artifactId>m2eclipse-maveneclipse</artifactId>
 		<version>0.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>org.eclipse.m2.maveneclipse.tests</artifactId>
+	<artifactId>org.eclipse.m2e.maveneclipse.tests</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
 	<name>m2e connector for eclipse-maven-plugin tests</name>
 	<build>
