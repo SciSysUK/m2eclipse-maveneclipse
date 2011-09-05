@@ -16,15 +16,14 @@
 package org.eclipse.m2e.maveneclipse;
 
 import org.apache.maven.model.Plugin;
-import org.apache.maven.project.MavenProject;
-import org.codehaus.plexus.util.xml.Xpp3Dom;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.core.project.configurator.AbstractCustomizableLifecycleMapping;
 import org.eclipse.m2e.core.project.configurator.AbstractProjectConfigurator;
 import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
-import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.configuration.DefaultMavenEclipseConfiguration;
+import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
+import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandlers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * {@link AbstractProjectConfigurator Project configurator} that applies configuration defined by the
  * <tt>maven-eclipse-plugin</tt> to m2e eclipse projects.
  * 
- * @see MavenEclipseConfigurationHandler
+ * @see ConfigurationHandlers
  * @author Alex Clarke
  * @author Phillip Webb
  */
@@ -43,7 +42,7 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 
 	private static final String ARTIFACT_ID = "maven-eclipse-plugin";
 
-	private MavenEclipseConfigurationHandler handler = new MavenEclipseConfigurationHandler();
+	private ConfigurationHandlers handler = new ConfigurationHandlers();
 
 	@Override
 	public void configure(ProjectConfigurationRequest request, IProgressMonitor monitor) throws CoreException {
@@ -57,65 +56,12 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 	}
 
 	private void configure(ProjectConfigurationRequest request, IProgressMonitor monitor, Plugin plugin) {
-		MavenEclipseConfiguration configuration = new ConfigurationImpl(plugin);
-		MavenEclipseContext context = new MavenEclipseContextImpl(configuration);
+		MavenEclipseConfiguration configuration = new DefaultMavenEclipseConfiguration(plugin);
+		MavenEclipseContext context = new DefaultMavenEclipseContext(configuration);
 		handler.handle(context);
 	}
 
 	private boolean isMavenEclipsePlugin(Plugin plugin) {
 		return GROUP_ID.equals(plugin.getGroupId()) && ARTIFACT_ID.equals(plugin.getArtifactId());
-	}
-
-	/**
-	 * Default implementation of {@link MavenEclipseContext}
-	 */
-	private static class MavenEclipseContextImpl implements MavenEclipseContext {
-		private MavenEclipseConfiguration configuration;
-
-		public MavenEclipseContextImpl(MavenEclipseConfiguration configuration) {
-			this.configuration = configuration;
-		}
-
-		public MavenEclipseConfiguration getConfiguration() {
-			return configuration;
-		}
-
-		public IProject getProject() {
-			return null;
-		}
-
-		public IProgressMonitor getProgressMonitor() {
-			return null;
-		}
-
-		public MavenProject getMavenProject() {
-			return null;
-		}
-	}
-
-	/**
-	 * Default implementation of {@link MavenEclipseConfiguration}
-	 */
-	private static class ConfigurationImpl implements MavenEclipseConfiguration {
-		private Xpp3Dom dom;
-
-		public ConfigurationImpl(Plugin plugin) {
-			this.dom = (Xpp3Dom) plugin.getConfiguration();
-		}
-
-		public ConfigurationParamter getParamter(String name) {
-			Xpp3Dom[] children = dom.getChildren(name);
-			if (children.length > 1) {
-				throw new IllegalStateException("Unexpected number of child parameters defined for '" + name + "'");
-			}
-			if (children.length == 0) {
-				return null;
-			}
-			return new Xpp3DomConfigurationParamter(children[0]);
-		}
-
-		public boolean containsParamter(String name) {
-			return getParamter(name) != null;
-		}
 	}
 }

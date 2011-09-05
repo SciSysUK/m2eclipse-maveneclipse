@@ -12,6 +12,7 @@ import org.apache.maven.project.MavenProject;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
+import org.eclipse.m2e.maveneclipse.handler.ProjectNatureConfigurationHandler;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -20,7 +21,7 @@ public class ProjectNatureConfigurationSectionHandlerTest {
 	private static final String INITIAL_NATURE = "nature1";
 	private static final String NEW_NATURE = "nature2";
 
-	private ProjectNatureConfigurationSectionHandler projectNatureConfigurationSectionHandler = new ProjectNatureConfigurationSectionHandler();
+	private ProjectNatureConfigurationHandler projectNatureConfigurationSectionHandler = new ProjectNatureConfigurationHandler();
 
 	@Test
 	public void shouldAddProjectNature() throws Exception {
@@ -37,7 +38,7 @@ public class ProjectNatureConfigurationSectionHandlerTest {
 		given(context.getMavenProject()).willReturn(mavenProject);
 		Properties properties = mock(Properties.class);
 		given(mavenProject.getProperties()).willReturn(properties);
-		given(properties.get(ProjectNatureConfigurationSectionHandler.PROJECT_NATURES_PROPERTY_NAME)).willReturn(
+		given(properties.get(ProjectNatureConfigurationHandler.PROJECT_NATURES_PROPERTY_NAME)).willReturn(
 				NEW_NATURE);
 
 		// When
@@ -78,7 +79,7 @@ public class ProjectNatureConfigurationSectionHandlerTest {
 		given(context.getMavenProject()).willReturn(mavenProject);
 		Properties properties = mock(Properties.class);
 		given(mavenProject.getProperties()).willReturn(properties);
-		given(properties.get(ProjectNatureConfigurationSectionHandler.PROJECT_NATURES_PROPERTY_NAME)).willReturn(
+		given(properties.get(ProjectNatureConfigurationHandler.PROJECT_NATURES_PROPERTY_NAME)).willReturn(
 				"spring");
 
 		// When

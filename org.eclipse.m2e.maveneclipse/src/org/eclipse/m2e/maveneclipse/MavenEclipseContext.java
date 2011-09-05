@@ -3,11 +3,12 @@ package org.eclipse.m2e.maveneclipse;
 import org.apache.maven.project.MavenProject;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
+import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandlers;
 
 /**
  * Context for made available from the {@link MavenEclipseProjectConfigurator} to expose relevant objects for
- * {@link MavenEclipseConfigurationHandler handlers} to use.
+ * {@link ConfigurationHandlers handlers} to use.
  * 
  * @author Alex Clarke
  * @author Phillip Webb

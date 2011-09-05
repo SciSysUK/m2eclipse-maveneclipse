@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
-import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandlers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,7 @@ public class MavenEclipseProjectConfiguratorTest {
 	private MavenEclipseProjectConfigurator mavenEclipseProjectConfigurator = new MavenEclipseProjectConfigurator();
 
 	@Mock
-	private MavenEclipseConfigurationHandler mavenEclipseConfigurationHandler;
+	private ConfigurationHandlers mavenEclipseConfigurationHandler;
 
 	@Test
 	public void shouldConfigureProject() throws Exception {
