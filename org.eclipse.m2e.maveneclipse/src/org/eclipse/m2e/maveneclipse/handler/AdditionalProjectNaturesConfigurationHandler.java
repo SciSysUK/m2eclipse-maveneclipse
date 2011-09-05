@@ -6,14 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
-import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParamter;
+import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 
 public class AdditionalProjectNaturesConfigurationHandler extends SingleParamterConfigurationHandler {
 
@@ -25,22 +24,21 @@ public class AdditionalProjectNaturesConfigurationHandler extends SingleParamter
 		ALIASES.put("spring", "org.springframework.ide.eclipse.core.springnature");
 	}
 
-	public void handle(MavenEclipseContext context, ConfigurationParamter configurationParameter) {
+	public void handle(MavenEclipseContext context, ConfigurationParameter configurationParameter) {
 		if (!canHandle(context)) {
 			throw new IllegalArgumentException("Unable to handle context");
 		}
 
-		MavenProject mavenProject = context.getMavenProject();
-		List<String> additionalProjectNatures = null;
-
-		for (String projectNature : additionalProjectNatures) {
-			try {
-				addProjectNature(context.getProject(), projectNature, context.getProgressMonitor());
-			} catch (CoreException e) {
-				throw new RuntimeException(e);
+		for (ConfigurationParameter child : configurationParameter.getChildren()) {
+			if (child.getName().equals("projectnature")) {
+				try {
+					addProjectNature(context.getProject(), child.getValue(), context.getProgressMonitor());
+				} catch (CoreException e) {
+					throw new RuntimeException(e);
+				}
 			}
-		}
 
+		}
 	}
 
 	private void addProjectNature(IProject project, String natureId, IProgressMonitor monitor) throws CoreException {

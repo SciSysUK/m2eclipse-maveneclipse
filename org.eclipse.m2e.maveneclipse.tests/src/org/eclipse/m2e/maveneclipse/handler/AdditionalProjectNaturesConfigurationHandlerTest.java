@@ -13,6 +13,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -23,6 +24,7 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 
 	private AdditionalProjectNaturesConfigurationHandler additionalProjectNaturesConfigurationHandler = new AdditionalProjectNaturesConfigurationHandler();
 
+	@Ignore
 	@Test
 	public void shouldAddProjectNatures() throws Exception {
 		// Given
@@ -63,6 +65,7 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void shouldAddAliasedProjectNature() throws Exception {
 		// Given
