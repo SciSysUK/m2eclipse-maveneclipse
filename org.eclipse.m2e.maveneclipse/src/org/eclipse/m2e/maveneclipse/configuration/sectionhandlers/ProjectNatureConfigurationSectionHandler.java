@@ -31,7 +31,7 @@ public class ProjectNatureConfigurationSectionHandler implements
 	}
 
 	public boolean canHandle(MavenEclipseContext context) {
-		return true;
+		return getProjectNaturesProperty(context.getMavenProject()) != null;
 	}
 
 	public void handle(MavenEclipseContext context) {
@@ -41,8 +41,8 @@ public class ProjectNatureConfigurationSectionHandler implements
 
 		MavenProject mavenProject = context.getMavenProject();
 		NatureProperty natureProperty = new NatureProperty(
-				mavenProject.getBasedir(), (String) mavenProject
-						.getProperties().get(PROJECT_NATURES_PROPERTY_NAME));
+				mavenProject.getBasedir(),
+				getProjectNaturesProperty(mavenProject));
 
 		for (String natureId : natureProperty.getIds()) {
 			try {
@@ -69,6 +69,11 @@ public class ProjectNatureConfigurationSectionHandler implements
 					.toArray(new String[natureIds.size()]));
 			project.setDescription(projectDescription, monitor);
 		}
+	}
+
+	private String getProjectNaturesProperty(MavenProject mavenProject) {
+		return (String) mavenProject.getProperties().get(
+				PROJECT_NATURES_PROPERTY_NAME);
 	}
 
 	static class NatureProperty {

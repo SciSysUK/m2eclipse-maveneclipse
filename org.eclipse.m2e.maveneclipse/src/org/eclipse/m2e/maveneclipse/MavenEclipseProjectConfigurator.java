@@ -76,6 +76,7 @@ public class MavenEclipseProjectConfigurator extends
 
 	/**
 	 * Default implementation of {@link MavenEclipseContext}
+	 * 
 	 * @author Alex Clarke
 	 * @author Phillip Webb
 	 */

@@ -2,6 +2,7 @@ package org.eclipse.m2e.maveneclipse.configuration.sectionhandlers;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -109,4 +110,19 @@ public class ProjectNatureConfigurationSectionHandlerTest {
 		assertTrue(hasNewNature);
 	}
 
+	@Test
+	public void shouldNotClaimToHandleContextsWithoutProjectNatureProperty() {
+		// Given
+		MavenEclipseContext context = mock(MavenEclipseContext.class);
+		MavenProject mavenProject = mock(MavenProject.class);
+		given(context.getMavenProject()).willReturn(mavenProject);
+		Properties properties = mock(Properties.class);
+		given(mavenProject.getProperties()).willReturn(properties);
+		given(properties.get(any())).willReturn(null);
+
+		// When
+		boolean canHandle = projectNatureConfigurationSectionHandler
+				.canHandle(context);
+
+	}
 }
