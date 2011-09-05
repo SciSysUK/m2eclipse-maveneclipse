@@ -16,10 +16,10 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
+import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParamter;
 
-public class ProjectNatureConfigurationHandler implements ConfigurationHandler {
-
-	protected static final String PROJECT_NATURES_PROPERTY_NAME = "eclipse.project.natures";
+public class ProjectNatureConfigurationHandler extends SingleParamterConfigurationHandler implements
+		ConfigurationHandler {
 
 	private static final Map<String, String> ALIASES;
 	static {
@@ -123,5 +123,17 @@ public class ProjectNatureConfigurationHandler implements ConfigurationHandler {
 		public List<String> getIds() {
 			return ids;
 		}
+	}
+
+	@Override
+	protected String getParamterName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void handle(MavenEclipseContext context, ConfigurationParamter paramter) {
+		// TODO Auto-generated method stub
+
 	}
 }
