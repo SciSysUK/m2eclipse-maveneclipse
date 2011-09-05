@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -21,7 +22,7 @@ public class ProjectNatureConfigurationSectionHandler implements
 		ConfigurationSectionHandler {
 
 	protected static final String PROJECT_NATURES_PROPERTY_NAME = "eclipse.project.natures";
-	
+
 	private static final Map<String, String> ALIASES;
 	static {
 		ALIASES = new HashMap<String, String>();
@@ -34,16 +35,22 @@ public class ProjectNatureConfigurationSectionHandler implements
 	}
 
 	public void handle(MavenEclipseContext context) {
-		if (canHandle(context)) {
-			String natureId = context.getMavenProject().getProperties().getProperty(PROJECT_NATURES_PROPERTY_NAME);
+		if (!canHandle(context)) {
+			throw new IllegalArgumentException("Unable to handle context");
+		}
+
+		MavenProject mavenProject = context.getMavenProject();
+		NatureProperty natureProperty = new NatureProperty(
+				mavenProject.getBasedir(), (String) mavenProject
+						.getProperties().get(PROJECT_NATURES_PROPERTY_NAME));
+
+		for (String natureId : natureProperty.getIds()) {
 			try {
 				addProjectNature(context.getProject(), natureId,
 						context.getProgressMonitor());
 			} catch (CoreException e) {
 				throw new RuntimeException(e);
 			}
-		} else {
-			throw new IllegalArgumentException("Unable to handle context");
 		}
 
 	}
