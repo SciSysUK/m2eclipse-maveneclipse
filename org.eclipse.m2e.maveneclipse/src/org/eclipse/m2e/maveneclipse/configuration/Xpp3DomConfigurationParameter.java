@@ -16,6 +16,7 @@
 package org.eclipse.m2e.maveneclipse.configuration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.codehaus.plexus.util.xml.Xpp3Dom;
@@ -26,11 +27,11 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
  * @author Alex Clarke
  * @author Phillip Webb
  */
-class Xpp3DomConfigurationParamter implements ConfigurationParameter {
+class Xpp3DomConfigurationParameter implements ConfigurationParameter {
 
 	private Xpp3Dom dom;
 
-	public Xpp3DomConfigurationParamter(Xpp3Dom dom) {
+	public Xpp3DomConfigurationParameter(Xpp3Dom dom) {
 		this.dom = dom;
 	}
 
@@ -41,17 +42,21 @@ class Xpp3DomConfigurationParamter implements ConfigurationParameter {
 	public List<ConfigurationParameter> getChildren() {
 		List<ConfigurationParameter> children = new ArrayList<ConfigurationParameter>();
 		for (Xpp3Dom child : dom.getChildren()) {
-			children.add(new Xpp3DomConfigurationParamter(child));
+			children.add(new Xpp3DomConfigurationParameter(child));
 		}
-		return children;
+		return Collections.unmodifiableList(children);
+	}
+
+	public boolean hasChild(String name) {
+		return dom.getChild(name) != null;
+	}
+
+	public ConfigurationParameter getChild(String name) {
+		Xpp3Dom child = dom.getChild(name);
+		return (child == null ? null : new Xpp3DomConfigurationParameter(child));
 	}
 
 	public String getValue() {
 		return dom.getValue();
 	}
-
-	public Xpp3Dom getXpp3Dom() {
-		return dom;
-	}
-
 }

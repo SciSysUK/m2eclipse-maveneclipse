@@ -39,6 +39,20 @@ public interface ConfigurationParameter {
 	public List<ConfigurationParameter> getChildren();
 
 	/**
+	 * Determined if this parameter has a child parameter with the specified name.
+	 * @param name the name of the child
+	 * @return true if the a child exists
+	 */
+	public boolean hasChild(String name);
+
+	/**
+	 * Return the child with the specified name.
+	 * @param name the name of the child
+	 * @return the child or <tt>null</tt>
+	 */
+	public ConfigurationParameter getChild(String name);
+
+	/**
 	 * Get the value of this {@link ConfigurationParameter}.
 	 * @return the {@link String} value of this {@link ConfigurationParameter}
 	 */

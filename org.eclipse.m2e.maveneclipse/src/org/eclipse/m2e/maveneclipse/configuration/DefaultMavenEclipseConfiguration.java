@@ -47,7 +47,7 @@ public class DefaultMavenEclipseConfiguration implements MavenEclipseConfigurati
 		if (children.length == 0) {
 			return null;
 		}
-		return new Xpp3DomConfigurationParamter(children[0]);
+		return new Xpp3DomConfigurationParameter(children[0]);
 	}
 
 	public boolean containsParamter(String name) {
