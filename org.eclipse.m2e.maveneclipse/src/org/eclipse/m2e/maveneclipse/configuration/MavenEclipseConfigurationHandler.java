@@ -27,51 +27,43 @@ import org.eclipse.m2e.maveneclipse.configuration.sectionhandlers.ProjectNatureC
  * @author Alex Clarke
  * @author Phillip Webb
  */
-public class MavenEclipseConfigurationHandler
-{
-    private final ConfigurationSectionHandler[] sectionHandlers;
+public class MavenEclipseConfigurationHandler {
+	private final ConfigurationSectionHandler[] sectionHandlers;
 
-    /**
-     * Create a {@link MavenEclipseConfigurationHandler} instance with the default set of handlers.
-     */
-    public MavenEclipseConfigurationHandler()
-    {
-        this(new ConfigurationSectionHandler[] { new AdditionalConfigHandler(),
-            new ProjectNatureConfigurationSectionHandler() });
-    }
+	/**
+	 * Create a {@link MavenEclipseConfigurationHandler} instance with the default set of handlers.
+	 */
+	public MavenEclipseConfigurationHandler() {
+		this(new ConfigurationSectionHandler[] { new AdditionalConfigHandler(),
+				new ProjectNatureConfigurationSectionHandler() });
+	}
 
-    /**
-     * Create a {@link MavenEclipseConfigurationHandler} instance with the sepecified handlers.
-     * 
-     * @param sectionHandlers
-     */
-    protected MavenEclipseConfigurationHandler(ConfigurationSectionHandler[] sectionHandlers)
-    {
-        if (sectionHandlers == null)
-        {
-            throw new IllegalArgumentException("SectionHandlers must not be null");
-        }
-        this.sectionHandlers = sectionHandlers;
-    }
+	/**
+	 * Create a {@link MavenEclipseConfigurationHandler} instance with the sepecified handlers.
+	 * 
+	 * @param sectionHandlers
+	 */
+	protected MavenEclipseConfigurationHandler(ConfigurationSectionHandler[] sectionHandlers) {
+		if (sectionHandlers == null) {
+			throw new IllegalArgumentException("SectionHandlers must not be null");
+		}
+		this.sectionHandlers = sectionHandlers;
+	}
 
-    protected final ConfigurationSectionHandler[] getSectionHandlers()
-    {
-        return sectionHandlers;
-    }
+	protected final ConfigurationSectionHandler[] getSectionHandlers() {
+		return sectionHandlers;
+	}
 
-    /**
-     * Handle the configuration of the project.
-     * 
-     * @param context the context
-     */
-    public void handle(MavenEclipseContext context)
-    {
-        for (ConfigurationSectionHandler sectionHandler : getSectionHandlers())
-        {
-            if (sectionHandler.canHandle(context))
-            {
-                sectionHandler.handle(context);
-            }
-        }
-    }
+	/**
+	 * Handle the configuration of the project.
+	 * 
+	 * @param context the context
+	 */
+	public void handle(MavenEclipseContext context) {
+		for (ConfigurationSectionHandler sectionHandler : getSectionHandlers()) {
+			if (sectionHandler.canHandle(context)) {
+				sectionHandler.handle(context);
+			}
+		}
+	}
 }

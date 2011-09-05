@@ -22,29 +22,27 @@ import org.mockito.runners.MockitoJUnitRunner;
  */
 @RunWith(MockitoJUnitRunner.class)
 @Ignore
-public class MavenEclipseProjectConfiguratorTest
-{
+public class MavenEclipseProjectConfiguratorTest {
 
-    @InjectMocks
-    private MavenEclipseProjectConfigurator mavenEclipseProjectConfigurator = new MavenEclipseProjectConfigurator();
+	@InjectMocks
+	private MavenEclipseProjectConfigurator mavenEclipseProjectConfigurator = new MavenEclipseProjectConfigurator();
 
-    @Mock
-    private MavenEclipseConfigurationHandler mavenEclipseConfigurationHandler;
+	@Mock
+	private MavenEclipseConfigurationHandler mavenEclipseConfigurationHandler;
 
-    @Test
-    public void shouldConfigureProject() throws Exception
-    {
-        // Given
-        ProjectConfigurationRequest request = mock(ProjectConfigurationRequest.class);
-        IProgressMonitor monitor = mock(IProgressMonitor.class);
-        // Need to mock statics to test this
-        //PowerMockito.mockStatic(MavenPlugin.class);
+	@Test
+	public void shouldConfigureProject() throws Exception {
+		// Given
+		ProjectConfigurationRequest request = mock(ProjectConfigurationRequest.class);
+		IProgressMonitor monitor = mock(IProgressMonitor.class);
+		// Need to mock statics to test this
+		//PowerMockito.mockStatic(MavenPlugin.class);
 
-        // When
-        mavenEclipseProjectConfigurator.configure(request, monitor);
+		// When
+		mavenEclipseProjectConfigurator.configure(request, monitor);
 
-        // Then
-        verify(mavenEclipseConfigurationHandler).handle(any(MavenEclipseContext.class));
-    }
+		// Then
+		verify(mavenEclipseConfigurationHandler).handle(any(MavenEclipseContext.class));
+	}
 
 }

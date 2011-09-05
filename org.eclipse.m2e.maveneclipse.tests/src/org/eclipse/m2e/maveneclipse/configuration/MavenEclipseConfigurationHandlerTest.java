@@ -27,43 +27,38 @@ import org.mockito.runners.MockitoJUnitRunner;
  * @author Phillip Webb
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MavenEclipseConfigurationHandlerTest
-{
-    @Mock
-    private MavenEclipseContext context;
+public class MavenEclipseConfigurationHandlerTest {
+	@Mock
+	private MavenEclipseContext context;
 
-    @Test
-    public void shouldDelegateToAllRelevantSectionHandlers()
-    {
-        ConfigurationSectionHandler h1 = mock(ConfigurationSectionHandler.class);
-        ConfigurationSectionHandler h2 = mock(ConfigurationSectionHandler.class);
-        ConfigurationSectionHandler h3 = mock(ConfigurationSectionHandler.class);
-        ConfigurationSectionHandler[] sectionHandlers = { h1, h2, h3 };
-        MavenEclipseConfigurationHandler configurationHandler = new MavenEclipseConfigurationHandler(sectionHandlers);
+	@Test
+	public void shouldDelegateToAllRelevantSectionHandlers() {
+		ConfigurationSectionHandler h1 = mock(ConfigurationSectionHandler.class);
+		ConfigurationSectionHandler h2 = mock(ConfigurationSectionHandler.class);
+		ConfigurationSectionHandler h3 = mock(ConfigurationSectionHandler.class);
+		ConfigurationSectionHandler[] sectionHandlers = { h1, h2, h3 };
+		MavenEclipseConfigurationHandler configurationHandler = new MavenEclipseConfigurationHandler(sectionHandlers);
 
-        given(h2.canHandle(context)).willReturn(true);
-        given(h3.canHandle(context)).willReturn(true);
+		given(h2.canHandle(context)).willReturn(true);
+		given(h3.canHandle(context)).willReturn(true);
 
-        configurationHandler.handle(context);
+		configurationHandler.handle(context);
 
-        verify(h1, never()).handle(context);
-        verify(h2).handle(context);
-        verify(h3).handle(context);
-    }
+		verify(h1, never()).handle(context);
+		verify(h2).handle(context);
+		verify(h3).handle(context);
+	}
 
-    @Test
-    public void shouldHaveDefaultHandlers() throws Exception
-    {
-        ConfigurationSectionHandler[] defaultHandlers = new MavenEclipseConfigurationHandler().getSectionHandlers();
-        Set<Class<?>> defaultHandlerClasses = new HashSet<Class<?>>();
-        for (ConfigurationSectionHandler handler : defaultHandlers)
-        {
-            defaultHandlerClasses.add(handler.getClass());
-        }
-        Set<Class<?>> expected = new HashSet<Class<?>>();
-        expected.addAll(Arrays.<Class<?>> asList(AdditionalConfigHandler.class,
-            ProjectNatureConfigurationSectionHandler.class));
-        assertThat(defaultHandlerClasses, is(equalTo(expected)));
-    }
-
+	@Test
+	public void shouldHaveDefaultHandlers() throws Exception {
+		ConfigurationSectionHandler[] defaultHandlers = new MavenEclipseConfigurationHandler().getSectionHandlers();
+		Set<Class<?>> defaultHandlerClasses = new HashSet<Class<?>>();
+		for (ConfigurationSectionHandler handler : defaultHandlers) {
+			defaultHandlerClasses.add(handler.getClass());
+		}
+		Set<Class<?>> expected = new HashSet<Class<?>>();
+		expected.addAll(Arrays.<Class<?>> asList(AdditionalConfigHandler.class,
+				ProjectNatureConfigurationSectionHandler.class));
+		assertThat(defaultHandlerClasses, is(equalTo(expected)));
+	}
 }

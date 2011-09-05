@@ -11,18 +11,16 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MavenEclipseProjectConfiguratorTest
-{
+public class MavenEclipseProjectConfiguratorTest {
 
-    @Mock
-    private OutputStream outputStream;
+	@Mock
+	private OutputStream outputStream;
 
-    @Test
-    public void shouldSupportMockito() throws Exception
-    {
-        MavenEclipseProjectConfigurator configurator;
-        outputStream.close();
-        verify(outputStream).close();
-    }
+	@Test
+	public void shouldSupportMockito() throws Exception {
+		MavenEclipseProjectConfigurator configurator;
+		outputStream.close();
+		verify(outputStream).close();
+	}
 
 }
