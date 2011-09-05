@@ -37,7 +37,7 @@ public class ConfigurationHandlers {
 	}
 
 	/**
-	 * Create a {@link ConfigurationHandlers} instance with the sepecified handlers.
+	 * Create a {@link ConfigurationHandlers} instance with the specified handlers.
 	 * 
 	 * @param sectionHandlers
 	 */
