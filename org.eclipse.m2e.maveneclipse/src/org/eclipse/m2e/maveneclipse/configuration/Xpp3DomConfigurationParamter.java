@@ -2,15 +2,21 @@ package org.eclipse.m2e.maveneclipse.configuration;
 
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 
-public class Xpp3DomConfigurationParamter implements ConfigurationParamter {
+/**
+ * Adapter class that converts {@link Xpp3Dom} into {@link ConfigurationParameter}.
+ * 
+ * @author Alex Clarke
+ * @author Phillip Webb
+ */
+class Xpp3DomConfigurationParamter implements ConfigurationParameter {
+
 	private Xpp3Dom dom;
 
 	public Xpp3DomConfigurationParamter(Xpp3Dom dom) {
 		this.dom = dom;
 	}
 
-	//FIXME delete
-	public Xpp3Dom getDom() {
-		return dom;
+	public String getName() {
+		return dom.getName();
 	}
 }

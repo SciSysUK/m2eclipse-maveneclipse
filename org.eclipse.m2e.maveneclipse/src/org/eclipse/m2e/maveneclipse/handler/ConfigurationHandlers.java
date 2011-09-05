@@ -26,6 +26,7 @@ import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
  * @author Phillip Webb
  */
 public class ConfigurationHandlers {
+
 	private final ConfigurationHandler[] sectionHandlers;
 
 	/**
@@ -37,7 +38,7 @@ public class ConfigurationHandlers {
 	}
 
 	/**
-	 * Create a {@link ConfigurationHandlers} instance with the sepecified handlers.
+	 * Create a {@link ConfigurationHandlers} instance with the specified handlers.
 	 * 
 	 * @param sectionHandlers
 	 */
@@ -48,6 +49,10 @@ public class ConfigurationHandlers {
 		this.sectionHandlers = sectionHandlers;
 	}
 
+	/**
+	 * Returns the section handlers.
+	 * @return the section handlers
+	 */
 	protected final ConfigurationHandler[] getSectionHandlers() {
 		return sectionHandlers;
 	}

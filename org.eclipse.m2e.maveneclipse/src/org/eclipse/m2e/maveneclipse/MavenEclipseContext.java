@@ -14,6 +14,7 @@ import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandlers;
  * @author Phillip Webb
  */
 public interface MavenEclipseContext {
+
 	/**
 	 * Access to the <tt>maven-eclipse-plugin</tt> configuration.
 	 * 
