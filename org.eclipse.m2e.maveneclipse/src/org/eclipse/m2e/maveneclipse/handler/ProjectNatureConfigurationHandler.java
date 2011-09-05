@@ -64,7 +64,7 @@ public class ProjectNatureConfigurationHandler extends SingleParamterConfigurati
 
 		for (String natureId : natureProperty.getIds()) {
 			try {
-				addProjectNature(context.getProject(), natureId, context.getProgressMonitor());
+				addProjectNature(context.getProject(), natureId, context.getMonitor());
 			} catch (CoreException e) {
 				throw new RuntimeException(e);
 			}

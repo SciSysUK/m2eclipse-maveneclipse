@@ -21,8 +21,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.core.project.configurator.AbstractCustomizableLifecycleMapping;
 import org.eclipse.m2e.core.project.configurator.AbstractProjectConfigurator;
 import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
-import org.eclipse.m2e.maveneclipse.configuration.DefaultMavenEclipseConfiguration;
-import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
 import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandlers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,10 +55,18 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 		}
 	}
 
-	private void configure(ProjectConfigurationRequest request, IProgressMonitor monitor, Plugin plugin) {
-		MavenEclipseConfiguration configuration = new DefaultMavenEclipseConfiguration(plugin);
-		MavenEclipseContext context = new DefaultMavenEclipseContext(configuration);
-		handler.handle(context);
+	private void configure(ProjectConfigurationRequest request, IProgressMonitor monitor, Plugin plugin)
+			throws CoreException {
+		MavenEclipseContext context = new DefaultMavenEclipseContext(request, monitor, plugin);
+		try {
+			handler.handle(context);
+		} catch (Exception e) {
+			if (e instanceof CoreException) {
+				throw (CoreException) e;
+			}
+			//FIXME
+			throw new RuntimeException(e);
+		}
 	}
 
 	private boolean isMavenEclipsePlugin(Plugin plugin) {

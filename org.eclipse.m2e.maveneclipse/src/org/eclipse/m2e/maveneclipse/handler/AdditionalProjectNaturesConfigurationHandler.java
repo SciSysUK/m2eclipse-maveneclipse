@@ -32,7 +32,7 @@ public class AdditionalProjectNaturesConfigurationHandler extends SingleParamter
 		for (ConfigurationParameter child : configurationParameter.getChildren()) {
 			if (child.getName().equals("projectnature")) {
 				try {
-					addProjectNature(context.getProject(), child.getValue(), context.getProgressMonitor());
+					addProjectNature(context.getProject(), child.getValue(), context.getMonitor());
 				} catch (CoreException e) {
 					throw new RuntimeException(e);
 				}

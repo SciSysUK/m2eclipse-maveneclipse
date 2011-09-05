@@ -61,8 +61,9 @@ public class ConfigurationHandlers {
 	 * Handle the configuration of the project.
 	 * 
 	 * @param context the context
+	 * @throws Exception
 	 */
-	public void handle(MavenEclipseContext context) {
+	public void handle(MavenEclipseContext context) throws Exception {
 		for (ConfigurationHandler sectionHandler : getSectionHandlers()) {
 			if (sectionHandler.canHandle(context)) {
 				sectionHandler.handle(context);

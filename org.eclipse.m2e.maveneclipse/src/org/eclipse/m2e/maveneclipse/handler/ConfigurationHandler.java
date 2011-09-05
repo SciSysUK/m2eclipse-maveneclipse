@@ -42,7 +42,8 @@ public interface ConfigurationHandler {
 	 * method will only be called when {@link #isSupported} returns <tt>true</tt>.
 	 * 
 	 * @param context the context
+	 * @throws Exception
 	 * @see #canHandle(MavenEclipseContext)
 	 */
-	void handle(MavenEclipseContext context);
+	void handle(MavenEclipseContext context) throws Exception;
 }

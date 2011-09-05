@@ -110,7 +110,7 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		// Given
 		MavenEclipseContext context = mock(MavenEclipseContext.class);
 		MavenEclipseConfiguration configuration = mock(MavenEclipseConfiguration.class);
-		given(context.getConfiguration()).willReturn(configuration);
+		given(context.getPluginConfiguration()).willReturn(configuration);
 		given(configuration.getParamter(AdditionalProjectNaturesConfigurationHandler.PARAMETER_NAME)).willReturn(null);
 
 		// When

@@ -31,13 +31,6 @@ import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandlers;
 public interface MavenEclipseContext {
 
 	/**
-	 * Access to the <tt>maven-eclipse-plugin</tt> configuration.
-	 * 
-	 * @return the configuration
-	 */
-	MavenEclipseConfiguration getConfiguration();
-
-	/**
 	 * Provides access to the {@link IProject}.
 	 * 
 	 * @return the {@link IProject}
@@ -49,7 +42,7 @@ public interface MavenEclipseContext {
 	 * 
 	 * @return the {@link IProgressMonitor}
 	 */
-	IProgressMonitor getProgressMonitor();
+	IProgressMonitor getMonitor();
 
 	/**
 	 * Provides access to the {@link MavenProject}.
@@ -57,4 +50,11 @@ public interface MavenEclipseContext {
 	 * @return the {@link MavenProject}
 	 */
 	MavenProject getMavenProject();
+
+	/**
+	 * Access to the <tt>maven-eclipse-plugin</tt> configuration.
+	 * 
+	 * @return the configuration
+	 */
+	MavenEclipseConfiguration getPluginConfiguration();
 }

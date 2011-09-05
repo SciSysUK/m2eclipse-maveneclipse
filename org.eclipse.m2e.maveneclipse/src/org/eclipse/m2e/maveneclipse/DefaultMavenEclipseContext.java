@@ -15,9 +15,12 @@
  */
 package org.eclipse.m2e.maveneclipse;
 
+import org.apache.maven.model.Plugin;
 import org.apache.maven.project.MavenProject;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
+import org.eclipse.m2e.maveneclipse.configuration.DefaultMavenEclipseConfiguration;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
 
 /**
@@ -28,35 +31,35 @@ import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
  */
 public class DefaultMavenEclipseContext implements MavenEclipseContext {
 
-	private MavenEclipseConfiguration configuration;
+	private ProjectConfigurationRequest request;
+	private IProgressMonitor monitor;
+	private MavenEclipseConfiguration pluginConfiguration;
 
 	/**
 	 * Create a new {@link DefaultMavenEclipseContext} instance.
-	 * @param configuration
+	 * @param request the request
+	 * @param monitor the monitor
+	 * @param plugin the plugin
 	 */
-	public DefaultMavenEclipseContext(MavenEclipseConfiguration configuration) {
-		if (configuration == null) {
-			throw new IllegalArgumentException("Configuration must not be null");
-		}
-		this.configuration = configuration;
-	}
-
-	public MavenEclipseConfiguration getConfiguration() {
-		return configuration;
+	public DefaultMavenEclipseContext(ProjectConfigurationRequest request, IProgressMonitor monitor, Plugin plugin) {
+		this.request = request;
+		this.monitor = monitor;
+		this.pluginConfiguration = new DefaultMavenEclipseConfiguration(plugin);
 	}
 
 	public IProject getProject() {
-		//FIXME
-		return null;
+		return request.getProject();
 	}
 
-	public IProgressMonitor getProgressMonitor() {
-		//FIXME
-		return null;
+	public IProgressMonitor getMonitor() {
+		return monitor;
 	}
 
 	public MavenProject getMavenProject() {
-		//FIXME
-		return null;
+		return request.getMavenProject();
+	}
+
+	public MavenEclipseConfiguration getPluginConfiguration() {
+		return pluginConfiguration;
 	}
 }
