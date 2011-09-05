@@ -15,6 +15,7 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
+import org.eclipse.m2e.maveneclipse.configuration.ConfigurationSectionHandler;
 
 public class ProjectNatureConfigurationSectionHandler implements
 		ConfigurationSectionHandler {
@@ -28,12 +29,12 @@ public class ProjectNatureConfigurationSectionHandler implements
 				"org.springframework.ide.eclipse.core.springnature");
 	}
 
-	public boolean isSupported(MavenEclipseContext context) {
+	public boolean canHandle(MavenEclipseContext context) {
 		return true;
 	}
 
 	public void handle(MavenEclipseContext context) {
-		if (isSupported(context)) {
+		if (canHandle(context)) {
 			String natureId = context.getMavenProject().getProperties().getProperty(PROJECT_NATURES_PROPERTY_NAME);
 			try {
 				addProjectNature(context.getProject(), natureId,

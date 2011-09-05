@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.m2e.maveneclipse.configuration.sectionhandlers;
+package org.eclipse.m2e.maveneclipse.configuration;
 
 import org.eclipse.m2e.maveneclipse.MavenEclipseConfiguration;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
-import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfigurationHandler;
 
 /**
  * Strategy interface called by {@link MavenEclipseConfigurationHandler} that can handle one particular section of the
@@ -35,13 +34,13 @@ public interface ConfigurationSectionHandler {
 	 * @return <tt>true</tt> if the handler supports the configuration
 	 * @see #handle(MavenEclipseContext)
 	 */
-	boolean isSupported(MavenEclipseContext context);
+	boolean canHandle(MavenEclipseContext context);
 
 	/**
 	 * Handle the {@link MavenEclipseConfiguration} applying the relevant section to the m2e eclipse project. This
 	 * method will only be called when {@link #isSupported} returns <tt>true</tt>.
 	 * @param context the context
-	 * @see #isSupported(MavenEclipseContext)
+	 * @see #canHandle(MavenEclipseContext)
 	 */
 	void handle(MavenEclipseContext context);
 }

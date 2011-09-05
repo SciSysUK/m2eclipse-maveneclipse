@@ -17,6 +17,8 @@ package org.eclipse.m2e.maveneclipse.configuration;
 
 import org.eclipse.m2e.maveneclipse.MavenEclipseConfiguration;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
+import org.eclipse.m2e.maveneclipse.configuration.sectionhandlers.AdditionalConfigHandler;
+import org.eclipse.m2e.maveneclipse.configuration.sectionhandlers.ProjectNatureConfigurationSectionHandler;
 
 /**
  * Performs the actual work of configuring a m2e eclipse project from {@link MavenEclipseConfiguration} in the specified
@@ -25,12 +27,51 @@ import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
  * @author Alex Clarke
  * @author Phillip Webb
  */
-public class MavenEclipseConfigurationHandler {
+public class MavenEclipseConfigurationHandler
+{
+    private final ConfigurationSectionHandler[] sectionHandlers;
 
-	public void handle(MavenEclipseContext context) {
-		handleSections(context);
-	}
+    /**
+     * Create a {@link MavenEclipseConfigurationHandler} instance with the default set of handlers.
+     */
+    public MavenEclipseConfigurationHandler()
+    {
+        this(new ConfigurationSectionHandler[] { new AdditionalConfigHandler(),
+            new ProjectNatureConfigurationSectionHandler() });
+    }
 
-	private void handleSections(MavenEclipseContext context) {
-	}
+    /**
+     * Create a {@link MavenEclipseConfigurationHandler} instance with the sepecified handlers.
+     * 
+     * @param sectionHandlers
+     */
+    protected MavenEclipseConfigurationHandler(ConfigurationSectionHandler[] sectionHandlers)
+    {
+        if (sectionHandlers == null)
+        {
+            throw new IllegalArgumentException("SectionHandlers must not be null");
+        }
+        this.sectionHandlers = sectionHandlers;
+    }
+
+    protected final ConfigurationSectionHandler[] getSectionHandlers()
+    {
+        return sectionHandlers;
+    }
+
+    /**
+     * Handle the configuration of the project.
+     * 
+     * @param context the context
+     */
+    public void handle(MavenEclipseContext context)
+    {
+        for (ConfigurationSectionHandler sectionHandler : getSectionHandlers())
+        {
+            if (sectionHandler.canHandle(context))
+            {
+                sectionHandler.handle(context);
+            }
+        }
+    }
 }
