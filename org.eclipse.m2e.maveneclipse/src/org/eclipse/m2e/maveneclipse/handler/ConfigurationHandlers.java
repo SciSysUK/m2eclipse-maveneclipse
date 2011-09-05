@@ -33,7 +33,7 @@ public class ConfigurationHandlers {
 	 */
 	public ConfigurationHandlers() {
 		this(new ConfigurationHandler[] { new AdditionalConfigConfigurationHandler(),
-				new ProjectNatureConfigurationHandler() });
+				new AdditionalProjectNaturesConfigurationHandler() });
 	}
 
 	/**

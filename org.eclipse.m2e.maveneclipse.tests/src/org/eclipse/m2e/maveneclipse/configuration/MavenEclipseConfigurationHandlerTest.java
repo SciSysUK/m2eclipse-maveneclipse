@@ -16,7 +16,7 @@ import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.handler.AdditionalConfigConfigurationHandler;
 import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandler;
 import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandlers;
-import org.eclipse.m2e.maveneclipse.handler.ProjectNatureConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.AdditionalProjectNaturesConfigurationHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -60,7 +60,7 @@ public class MavenEclipseConfigurationHandlerTest {
 		}
 		Set<Class<?>> expected = new HashSet<Class<?>>();
 		expected.addAll(Arrays.<Class<?>> asList(AdditionalConfigConfigurationHandler.class,
-				ProjectNatureConfigurationHandler.class));
+				AdditionalProjectNaturesConfigurationHandler.class));
 		assertThat(defaultHandlerClasses, is(equalTo(expected)));
 	}
 }
