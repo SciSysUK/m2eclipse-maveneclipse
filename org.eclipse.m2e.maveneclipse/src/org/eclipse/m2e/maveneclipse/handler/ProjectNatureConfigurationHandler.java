@@ -16,8 +16,15 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
-import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParamter;
+import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 
+/**
+ * A {@link ConfigurationHandler} that deals with <tt>additionalProjectnatures</tt> from the
+ * <tt>maven-eclipse-plugin</tt>.
+ * 
+ * @author Alex Clarke
+ * @author Phillip Webb
+ */
 public class ProjectNatureConfigurationHandler extends SingleParamterConfigurationHandler implements
 		ConfigurationHandler {
 
@@ -31,7 +38,7 @@ public class ProjectNatureConfigurationHandler extends SingleParamterConfigurati
 		return getProjectNaturesProperty(context.getMavenProject()) != null;
 	}
 
-	public void handle(MavenEclipseContext context, ConfigurationParamter configurationParameter) {
+	public void handle(MavenEclipseContext context, ConfigurationParameter configurationParameter) {
 		if (!canHandle(context)) {
 			throw new IllegalArgumentException("Unable to handle context");
 		}

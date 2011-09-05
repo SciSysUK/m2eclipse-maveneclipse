@@ -24,7 +24,7 @@ public class DefaultMavenEclipseConfiguration implements MavenEclipseConfigurati
 		this.dom = (Xpp3Dom) plugin.getConfiguration();
 	}
 
-	public ConfigurationParamter getParamter(String name) {
+	public ConfigurationParameter getParamter(String name) {
 		Xpp3Dom[] children = dom.getChildren(name);
 		if (children.length > 1) {
 			throw new IllegalStateException("Unexpected number of child parameters defined for '" + name + "'");

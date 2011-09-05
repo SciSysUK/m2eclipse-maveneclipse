@@ -32,10 +32,12 @@ import org.slf4j.LoggerFactory;
  * <tt>maven-eclipse-plugin</tt> to m2e eclipse projects.
  * 
  * @see ConfigurationHandlers
+ * 
  * @author Alex Clarke
  * @author Phillip Webb
  */
 public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator {
+
 	private static Logger log = LoggerFactory.getLogger(AbstractCustomizableLifecycleMapping.class);
 
 	private static final String GROUP_ID = "org.apache.maven.plugins";

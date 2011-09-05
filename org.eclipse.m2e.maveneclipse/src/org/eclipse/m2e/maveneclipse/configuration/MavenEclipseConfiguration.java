@@ -29,7 +29,7 @@ public interface MavenEclipseConfiguration {
 	 * @param name the name of the parameter
 	 * @return the configuration paramter or <tt>null</tt> if no paramter is defined.
 	 */
-	ConfigurationParamter getParamter(String name);
+	ConfigurationParameter getParamter(String name);
 
 	/**
 	 * Determines if the configuration contains the specifed paramter.
