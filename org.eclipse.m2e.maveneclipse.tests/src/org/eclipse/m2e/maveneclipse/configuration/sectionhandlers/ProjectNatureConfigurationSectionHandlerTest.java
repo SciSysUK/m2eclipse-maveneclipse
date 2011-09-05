@@ -37,17 +37,14 @@ public class ProjectNatureConfigurationSectionHandlerTest {
 		given(context.getMavenProject()).willReturn(mavenProject);
 		Properties properties = mock(Properties.class);
 		given(mavenProject.getProperties()).willReturn(properties);
-		given(
-				properties
-						.get(ProjectNatureConfigurationSectionHandler.PROJECT_NATURES_PROPERTY_NAME))
-				.willReturn(NEW_NATURE);
+		given(properties.get(ProjectNatureConfigurationSectionHandler.PROJECT_NATURES_PROPERTY_NAME)).willReturn(
+				NEW_NATURE);
 
 		// When
 		projectNatureConfigurationSectionHandler.handle(context);
 
 		// Then
-		ArgumentCaptor<String[]> argument = ArgumentCaptor
-				.forClass(String[].class);
+		ArgumentCaptor<String[]> argument = ArgumentCaptor.forClass(String[].class);
 		verify(projectDescription).setNatureIds(argument.capture());
 
 		boolean hasInitialNature = false;
@@ -81,17 +78,14 @@ public class ProjectNatureConfigurationSectionHandlerTest {
 		given(context.getMavenProject()).willReturn(mavenProject);
 		Properties properties = mock(Properties.class);
 		given(mavenProject.getProperties()).willReturn(properties);
-		given(
-				properties
-						.get(ProjectNatureConfigurationSectionHandler.PROJECT_NATURES_PROPERTY_NAME))
-				.willReturn("spring");
+		given(properties.get(ProjectNatureConfigurationSectionHandler.PROJECT_NATURES_PROPERTY_NAME)).willReturn(
+				"spring");
 
 		// When
 		projectNatureConfigurationSectionHandler.handle(context);
 
 		// Then
-		ArgumentCaptor<String[]> argument = ArgumentCaptor
-				.forClass(String[].class);
+		ArgumentCaptor<String[]> argument = ArgumentCaptor.forClass(String[].class);
 		verify(projectDescription).setNatureIds(argument.capture());
 
 		boolean hasInitialNature = false;
@@ -101,8 +95,7 @@ public class ProjectNatureConfigurationSectionHandlerTest {
 			if (INITIAL_NATURE.equals(newNatureIds[i])) {
 				hasInitialNature = true;
 			}
-			if ("org.springframework.ide.eclipse.core.springnature"
-					.equals(newNatureIds[i])) {
+			if ("org.springframework.ide.eclipse.core.springnature".equals(newNatureIds[i])) {
 				hasNewNature = true;
 			}
 		}
@@ -121,8 +114,8 @@ public class ProjectNatureConfigurationSectionHandlerTest {
 		given(properties.get(any())).willReturn(null);
 
 		// When
-		boolean canHandle = projectNatureConfigurationSectionHandler
-				.canHandle(context);
+		boolean canHandle = projectNatureConfigurationSectionHandler.canHandle(context);
 
 	}
+
 }

@@ -23,4 +23,19 @@ package org.eclipse.m2e.maveneclipse;
  */
 public interface MavenEclipseConfiguration {
 
+	/**
+	 * Return a single configuration parameter from the configuration.
+	 * 
+	 * @param name the name of the parameter
+	 * @return the configuration paramter or <tt>null</tt> if no paramter is defined.
+	 */
+	ConfigurationParamter getParamter(String name);
+
+	/**
+	 * Determines if the configuration contains the specifed paramter.
+	 * 
+	 * @param name the name of the paramter
+	 * @return <tt>true</tt> if {@link #getParamter(String)} returns a <tt>non-null</tt> result.
+	 */
+	boolean containsParamter(String name);
 }

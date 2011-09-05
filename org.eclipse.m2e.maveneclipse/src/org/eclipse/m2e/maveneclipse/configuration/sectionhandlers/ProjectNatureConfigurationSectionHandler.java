@@ -18,16 +18,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationSectionHandler;
 
-public class ProjectNatureConfigurationSectionHandler implements
-		ConfigurationSectionHandler {
+public class ProjectNatureConfigurationSectionHandler implements ConfigurationSectionHandler {
 
 	protected static final String PROJECT_NATURES_PROPERTY_NAME = "eclipse.project.natures";
 
 	private static final Map<String, String> ALIASES;
 	static {
 		ALIASES = new HashMap<String, String>();
-		ALIASES.put("spring",
-				"org.springframework.ide.eclipse.core.springnature");
+		ALIASES.put("spring", "org.springframework.ide.eclipse.core.springnature");
 	}
 
 	public boolean canHandle(MavenEclipseContext context) {
@@ -40,14 +38,12 @@ public class ProjectNatureConfigurationSectionHandler implements
 		}
 
 		MavenProject mavenProject = context.getMavenProject();
-		NatureProperty natureProperty = new NatureProperty(
-				mavenProject.getBasedir(),
+		NatureProperty natureProperty = new NatureProperty(mavenProject.getBasedir(),
 				getProjectNaturesProperty(mavenProject));
 
 		for (String natureId : natureProperty.getIds()) {
 			try {
-				addProjectNature(context.getProject(), natureId,
-						context.getProgressMonitor());
+				addProjectNature(context.getProject(), natureId, context.getProgressMonitor());
 			} catch (CoreException e) {
 				throw new RuntimeException(e);
 			}
@@ -55,8 +51,7 @@ public class ProjectNatureConfigurationSectionHandler implements
 
 	}
 
-	private void addProjectNature(IProject project, String natureId,
-			IProgressMonitor monitor) throws CoreException {
+	private void addProjectNature(IProject project, String natureId, IProgressMonitor monitor) throws CoreException {
 		if (StringUtils.isEmpty(natureId)) {
 			return;
 		}
@@ -65,21 +60,18 @@ public class ProjectNatureConfigurationSectionHandler implements
 			List<String> natureIds = new ArrayList<String>();
 			natureIds.addAll(Arrays.asList(projectDescription.getNatureIds()));
 			natureIds.add(natureId);
-			projectDescription.setNatureIds(natureIds
-					.toArray(new String[natureIds.size()]));
+			projectDescription.setNatureIds(natureIds.toArray(new String[natureIds.size()]));
 			project.setDescription(projectDescription, monitor);
 		}
 	}
 
 	private String getProjectNaturesProperty(MavenProject mavenProject) {
-		return (String) mavenProject.getProperties().get(
-				PROJECT_NATURES_PROPERTY_NAME);
+		return (String) mavenProject.getProperties().get(PROJECT_NATURES_PROPERTY_NAME);
 	}
 
 	static class NatureProperty {
 
-		private static final Pattern CONDITIONAL_ITEM_PATTERN = Pattern
-				.compile("(.*)\\[(.*)\\]");
+		private static final Pattern CONDITIONAL_ITEM_PATTERN = Pattern.compile("(.*)\\[(.*)\\]");
 
 		private List<String> ids = new ArrayList<String>();
 
@@ -133,5 +125,4 @@ public class ProjectNatureConfigurationSectionHandler implements
 			return ids;
 		}
 	}
-
 }

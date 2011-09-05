@@ -30,6 +30,7 @@ public interface ConfigurationSectionHandler {
 	/**
 	 * Determines if the handler can deal with the {@link MavenEclipseConfiguration} available in the specified
 	 * {@link MavenEclipseContext}.
+	 * 
 	 * @param context the context
 	 * @return <tt>true</tt> if the handler supports the configuration
 	 * @see #handle(MavenEclipseContext)
@@ -39,6 +40,7 @@ public interface ConfigurationSectionHandler {
 	/**
 	 * Handle the {@link MavenEclipseConfiguration} applying the relevant section to the m2e eclipse project. This
 	 * method will only be called when {@link #isSupported} returns <tt>true</tt>.
+	 * 
 	 * @param context the context
 	 * @see #canHandle(MavenEclipseContext)
 	 */

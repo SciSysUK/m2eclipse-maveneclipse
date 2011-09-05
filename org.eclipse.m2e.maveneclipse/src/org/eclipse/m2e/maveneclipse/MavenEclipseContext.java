@@ -13,29 +13,31 @@ import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfigurationHandl
  * @author Phillip Webb
  */
 public interface MavenEclipseContext {
-
 	/**
 	 * Access to the <tt>maven-eclipse-plugin</tt> configuration.
+	 * 
 	 * @return the configuration
 	 */
 	MavenEclipseConfiguration getConfiguration();
 
 	/**
 	 * Provides access to the {@link IProject}.
-	 * @return
+	 * 
+	 * @return the {@link IProject}
 	 */
 	IProject getProject();
 
 	/**
-	 * Provides access to the {@link IProgressMonitor}. 
-	 * @return
+	 * Provides access to the {@link IProgressMonitor}.
+	 * 
+	 * @return the {@link IProgressMonitor}
 	 */
 	IProgressMonitor getProgressMonitor();
 
 	/**
 	 * Provides access to the {@link MavenProject}.
-	 * @return
+	 * 
+	 * @return the {@link MavenProject}
 	 */
 	MavenProject getMavenProject();
-
 }
