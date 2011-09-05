@@ -20,7 +20,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 @RunWith(MockitoJUnitRunner.class)
-@PrepareForTest({MavenPlugin.class})
 @Ignore
 public class MavenEclipseProjectConfiguratorTest {
 
