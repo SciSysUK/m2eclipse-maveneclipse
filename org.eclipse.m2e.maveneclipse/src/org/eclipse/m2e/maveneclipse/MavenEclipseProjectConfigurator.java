@@ -16,7 +16,9 @@
 package org.eclipse.m2e.maveneclipse;
 
 import org.apache.maven.model.Plugin;
+import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.core.project.configurator.AbstractCustomizableLifecycleMapping;
@@ -27,17 +29,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link AbstractProjectConfigurator Project configurator} that applies configuration defined by the
- * <tt>maven-eclipse-plugin</tt> to m2e eclipse projects.
+ * {@link AbstractProjectConfigurator Project configurator} that applies
+ * configuration defined by the <tt>maven-eclipse-plugin</tt> to m2e eclipse
+ * projects.
  * 
  * @see MavenEclipseConfigurationHandler
  * 
  * @author Alex Clarke
  * @author Phillip Webb
  */
-public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator {
+public class MavenEclipseProjectConfigurator extends
+		AbstractProjectConfigurator {
 
-	private static Logger log = LoggerFactory.getLogger(AbstractCustomizableLifecycleMapping.class);
+	private static Logger log = LoggerFactory
+			.getLogger(AbstractCustomizableLifecycleMapping.class);
 
 	private static final String GROUP_ID = "org.apache.maven.plugins";
 	private static final String ARTIFACT_ID = "maven-eclipse-plugin";
@@ -45,27 +50,56 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 	private MavenEclipseConfigurationHandler handler = new MavenEclipseConfigurationHandler();
 
 	@Override
-	public void configure(ProjectConfigurationRequest request, IProgressMonitor monitor) throws CoreException {
+	public void configure(ProjectConfigurationRequest request,
+			IProgressMonitor monitor) throws CoreException {
 		log.debug("Checking for " + GROUP_ID + ":" + ARTIFACT_ID + " plugin");
 		for (Plugin plugin : request.getMavenProject().getBuildPlugins()) {
 			if (isMavenEclipsePlugin(plugin)) {
-				log.debug("Configuring m2e project for " + GROUP_ID + ":" + ARTIFACT_ID + " plugin");
+				log.debug("Configuring m2e project for " + GROUP_ID + ":"
+						+ ARTIFACT_ID + " plugin");
 				configure(request, monitor, plugin);
 			}
 		}
 	}
 
-	private void configure(ProjectConfigurationRequest request, IProgressMonitor monitor, Plugin plugin) {
-		MavenEclipseContext context = new MavenEclipseContextImpl();
+	private void configure(ProjectConfigurationRequest request,
+			IProgressMonitor monitor, Plugin plugin) {
+		MavenEclipseConfiguration configuration = new ConfigurationImpl(plugin);
+		MavenEclipseContext context = new MavenEclipseContextImpl(configuration);
 		handler.handle(context);
 	}
 
 	private boolean isMavenEclipsePlugin(Plugin plugin) {
-		return GROUP_ID.equals(plugin.getGroupId()) && ARTIFACT_ID.equals(plugin.getArtifactId());
+		return GROUP_ID.equals(plugin.getGroupId())
+				&& ARTIFACT_ID.equals(plugin.getArtifactId());
 	}
 
+	/**
+	 * Default implementation of {@link MavenEclipseContext}
+	 * @author Alex Clarke
+	 * @author Phillip Webb
+	 */
 	private static class MavenEclipseContextImpl implements MavenEclipseContext {
+
+		private MavenEclipseConfiguration configuration;
+
+		public MavenEclipseContextImpl(MavenEclipseConfiguration configuration) {
+			this.configuration = configuration;
+		}
+
 		public MavenEclipseConfiguration getConfiguration() {
+			return configuration;
+		}
+
+		public IProject getProject() {
+			return null;
+		}
+
+		public IProgressMonitor getProgressMonitor() {
+			return null;
+		}
+
+		public MavenProject getMavenProject() {
 			return null;
 		}
 	}

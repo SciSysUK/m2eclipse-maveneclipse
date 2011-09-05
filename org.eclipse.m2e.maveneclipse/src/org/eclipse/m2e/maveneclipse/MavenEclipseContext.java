@@ -1,5 +1,8 @@
 package org.eclipse.m2e.maveneclipse;
 
+import org.apache.maven.project.MavenProject;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfigurationHandler;
 
 /**
@@ -16,5 +19,23 @@ public interface MavenEclipseContext {
 	 * @return the configuration
 	 */
 	MavenEclipseConfiguration getConfiguration();
+
+	/**
+	 * Provides access to the {@link IProject}.
+	 * @return
+	 */
+	IProject getProject();
+
+	/**
+	 * Provides access to the {@link IProgressMonitor}. 
+	 * @return
+	 */
+	IProgressMonitor getProgressMonitor();
+
+	/**
+	 * Provides access to the {@link MavenProject}.
+	 * @return
+	 */
+	MavenProject getMavenProject();
 
 }

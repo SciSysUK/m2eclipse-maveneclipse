@@ -7,4 +7,4 @@ Bundle-Version: 0.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.junit;bundle-version="4.8.2"
 Bundle-Vendor: %Bundle-Vendor
-Bundle-ClassPath: lib/mockito-all.jar
+Bundle-ClassPath: lib/mockito-all.jar,	lib/powermock-core.jar ,lib/powermock-api-mockito.jar
