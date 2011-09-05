@@ -31,7 +31,7 @@ public class ProjectNatureConfigurationHandler extends SingleParamterConfigurati
 		return getProjectNaturesProperty(context.getMavenProject()) != null;
 	}
 
-	public void handle(MavenEclipseContext context) {
+	public void handle(MavenEclipseContext context, ConfigurationParamter configurationParameter) {
 		if (!canHandle(context)) {
 			throw new IllegalArgumentException("Unable to handle context");
 		}
@@ -65,7 +65,7 @@ public class ProjectNatureConfigurationHandler extends SingleParamterConfigurati
 	}
 
 	private String getProjectNaturesProperty(MavenProject mavenProject) {
-		return (String) mavenProject.getProperties().get(PROJECT_NATURES_PROPERTY_NAME);
+		return "";
 	}
 
 	static class NatureProperty {
@@ -127,13 +127,7 @@ public class ProjectNatureConfigurationHandler extends SingleParamterConfigurati
 
 	@Override
 	protected String getParamterName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	protected void handle(MavenEclipseContext context, ConfigurationParamter paramter) {
-		// TODO Auto-generated method stub
-
-	}
 }
