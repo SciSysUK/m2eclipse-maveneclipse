@@ -17,18 +17,20 @@ package org.eclipse.m2e.maveneclipse.handler;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.maven.project.MavenProject;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
+import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -40,28 +42,45 @@ import org.mockito.ArgumentCaptor;
  */
 public class AdditionalProjectNaturesConfigurationHandlerTest {
 
-	private static final String INITIAL_NATURE = "nature1";
-	private static final String NEW_NATURE = "nature2";
+	private static final String FIRST_PROJECT_NATURE = "first";
+	private static final String SECOND_PROJECT_NATURE = "second";
+
+	private static final String INITIAL_NATURE = "initial";
 
 	private AdditionalProjectNaturesConfigurationHandler additionalProjectNaturesConfigurationHandler = new AdditionalProjectNaturesConfigurationHandler();
 
-	@Ignore
+	private MavenEclipseContext context = mock(MavenEclipseContext.class);
+
+	private IProjectDescription projectDescription = mock(IProjectDescription.class);
+
+	@Before
+	public void setupBasicContextWithInitialNature() throws Exception {
+		IProject project = mock(IProject.class);
+		given(context.getProject()).willReturn(project);
+
+		given(project.getDescription()).willReturn(projectDescription);
+		String[] initialNatureIds = { INITIAL_NATURE };
+		given(projectDescription.getNatureIds()).willReturn(initialNatureIds);
+	}
+
 	@Test
 	public void shouldAddProjectNatures() throws Exception {
 		// Given
-		MavenEclipseContext context = mock(MavenEclipseContext.class);
-		IProject project = mock(IProject.class);
-		given(context.getProject()).willReturn(project);
-		IProjectDescription projectDescription = mock(IProjectDescription.class);
-		given(project.getDescription()).willReturn(projectDescription);
-		String[] initialNatureIds = { INITIAL_NATURE };
-		given(projectDescription.getNatureIds()).willReturn(initialNatureIds);
+		MavenEclipseConfiguration mavenEclipseConfiguration = mock(MavenEclipseConfiguration.class);
+		given(context.getPluginConfiguration()).willReturn(mavenEclipseConfiguration);
+		ConfigurationParameter configurationParameter = mock(ConfigurationParameter.class);
+		given(mavenEclipseConfiguration.getParamter(additionalProjectNaturesConfigurationHandler.getParamterName()))
+				.willReturn(configurationParameter);
+		given(
+				mavenEclipseConfiguration.containsParamter(additionalProjectNaturesConfigurationHandler
+						.getParamterName())).willReturn(true);
 
-		MavenProject mavenProject = mock(MavenProject.class);
-		given(context.getMavenProject()).willReturn(mavenProject);
-		Properties properties = mock(Properties.class);
-		given(mavenProject.getProperties()).willReturn(properties);
-		//given(properties.get(AdditionalProjectNaturesConfigurationHandler.PROJECT_NATURES_PROPERTY_NAME)).willReturn(NEW_NATURE);
+		List<ConfigurationParameter> projectNatureConfigurationParameters = new ArrayList<ConfigurationParameter>();
+		ConfigurationParameter firstProjectNature = createProjectNatureConfigParameter(FIRST_PROJECT_NATURE);
+		ConfigurationParameter secondProjectNature = createProjectNatureConfigParameter(SECOND_PROJECT_NATURE);
+		projectNatureConfigurationParameters.add(firstProjectNature);
+		projectNatureConfigurationParameters.add(secondProjectNature);
+		given(configurationParameter.getChildren()).willReturn(projectNatureConfigurationParameters);
 
 		// When
 		additionalProjectNaturesConfigurationHandler.handle(context);
@@ -71,59 +90,39 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		verify(projectDescription).setNatureIds(argument.capture());
 
 		boolean hasInitialNature = false;
-		boolean hasNewNature = false;
+		boolean hasFirstNature = false;
+		boolean hasSecondNature = false;
 		String[] newNatureIds = argument.getValue();
 		for (int i = 0; i < newNatureIds.length; i++) {
 			if (INITIAL_NATURE.equals(newNatureIds[i])) {
 				hasInitialNature = true;
+			} else if (FIRST_PROJECT_NATURE.equals(newNatureIds[i])) {
+				hasFirstNature = true;
+			} else if (SECOND_PROJECT_NATURE.equals(newNatureIds[i])) {
+				hasSecondNature = true;
+			} else {
+				fail("Unknown project nature found: " + newNatureIds[i]);
 			}
-			if (NEW_NATURE.equals(newNatureIds[i])) {
-				hasNewNature = true;
-			}
+
 		}
 		assertTrue(hasInitialNature);
-		assertTrue(hasNewNature);
-
+		assertTrue(hasFirstNature);
+		assertTrue(hasSecondNature);
 	}
 
-	@Ignore
 	@Test
-	public void shouldAddAliasedProjectNature() throws Exception {
+	public void shouldClaimToHandleContextsWithAdditionalProjectNaturesParamater() {
 		// Given
 		MavenEclipseContext context = mock(MavenEclipseContext.class);
-		IProject project = mock(IProject.class);
-		given(context.getProject()).willReturn(project);
-		IProjectDescription projectDescription = mock(IProjectDescription.class);
-		given(project.getDescription()).willReturn(projectDescription);
-		String[] initialNatureIds = { INITIAL_NATURE };
-		given(projectDescription.getNatureIds()).willReturn(initialNatureIds);
-
-		MavenProject mavenProject = mock(MavenProject.class);
-		given(context.getMavenProject()).willReturn(mavenProject);
-		Properties properties = mock(Properties.class);
-		given(mavenProject.getProperties()).willReturn(properties);
-		//given(properties.get(AdditionalProjectNaturesConfigurationHandler.PROJECT_NATURES_PROPERTY_NAME)).willReturn("spring");
+		MavenEclipseConfiguration configuration = mock(MavenEclipseConfiguration.class);
+		given(context.getPluginConfiguration()).willReturn(configuration);
+		given(configuration.containsParamter(additionalProjectNaturesConfigurationHandler.getParamterName()))
+				.willReturn(true);
 
 		// When
-		additionalProjectNaturesConfigurationHandler.handle(context);
+		boolean canHandle = additionalProjectNaturesConfigurationHandler.canHandle(context);
 
-		// Then
-		ArgumentCaptor<String[]> argument = ArgumentCaptor.forClass(String[].class);
-		verify(projectDescription).setNatureIds(argument.capture());
-
-		boolean hasInitialNature = false;
-		boolean hasNewNature = false;
-		String[] newNatureIds = argument.getValue();
-		for (int i = 0; i < newNatureIds.length; i++) {
-			if (INITIAL_NATURE.equals(newNatureIds[i])) {
-				hasInitialNature = true;
-			}
-			if ("org.springframework.ide.eclipse.core.springnature".equals(newNatureIds[i])) {
-				hasNewNature = true;
-			}
-		}
-		assertTrue(hasInitialNature);
-		assertTrue(hasNewNature);
+		assertTrue(canHandle);
 	}
 
 	@Test
@@ -132,12 +131,20 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		MavenEclipseContext context = mock(MavenEclipseContext.class);
 		MavenEclipseConfiguration configuration = mock(MavenEclipseConfiguration.class);
 		given(context.getPluginConfiguration()).willReturn(configuration);
-		given(configuration.getParamter(AdditionalProjectNaturesConfigurationHandler.PARAMETER_NAME)).willReturn(null);
+		given(configuration.getParamter(additionalProjectNaturesConfigurationHandler.getParamterName())).willReturn(
+				null);
 
 		// When
 		boolean canHandle = additionalProjectNaturesConfigurationHandler.canHandle(context);
 
 		assertFalse(canHandle);
+	}
 
+	private ConfigurationParameter createProjectNatureConfigParameter(String natureId) {
+		ConfigurationParameter firstProjectNature = mock(ConfigurationParameter.class);
+		given(firstProjectNature.getName())
+				.willReturn(AdditionalProjectNaturesConfigurationHandler.PROJECT_NATURE_NAME);
+		given(firstProjectNature.getValue()).willReturn(natureId);
+		return firstProjectNature;
 	}
 }

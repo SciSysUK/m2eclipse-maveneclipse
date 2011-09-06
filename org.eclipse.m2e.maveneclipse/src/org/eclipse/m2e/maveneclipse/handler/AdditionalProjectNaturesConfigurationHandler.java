@@ -15,13 +15,10 @@
  */
 package org.eclipse.m2e.maveneclipse.handler;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.codehaus.plexus.util.StringUtils;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
@@ -29,45 +26,39 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 
+/**
+ * A {@link ConfigurationHandler} that handles the configuration of <tt>additionalprojectnatures</tt> from the
+ * <tt>maven-eclipse-plugin</tt>.
+ * 
+ * @author Alex Clarke
+ * @author Phillip Webb
+ */
 public class AdditionalProjectNaturesConfigurationHandler extends SingleParamterConfigurationHandler {
 
-	static final String PARAMETER_NAME = "additionalProjectnatures";
+	private static final String PARAMETER_NAME = "additionalProjectnatures";
 
-	private static final Map<String, String> ALIASES;
-	static {
-		ALIASES = new HashMap<String, String>();
-		ALIASES.put("spring", "org.springframework.ide.eclipse.core.springnature");
-	}
+	static final String PROJECT_NATURE_NAME = "projectnature";
 
 	public void handle(MavenEclipseContext context, ConfigurationParameter configurationParameter) {
-		if (!canHandle(context)) {
-			throw new IllegalArgumentException("Unable to handle context");
-		}
-
+		Set<String> newNatureIDs = new HashSet<String>();
 		for (ConfigurationParameter child : configurationParameter.getChildren()) {
-			if (child.getName().equals("projectnature")) {
-				try {
-					addProjectNature(context.getProject(), child.getValue(), context.getMonitor());
-				} catch (CoreException e) {
-					throw new RuntimeException(e);
-				}
+			if (PROJECT_NATURE_NAME.equals(child.getName())) {
+				newNatureIDs.add(child.getValue());
 			}
-
+		}
+		try {
+			addProjectNatures(context.getProject(), newNatureIDs, context.getMonitor());
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
-	private void addProjectNature(IProject project, String natureId, IProgressMonitor monitor) throws CoreException {
-		if (StringUtils.isEmpty(natureId)) {
-			return;
-		}
-		if (!project.hasNature(natureId)) {
-			IProjectDescription projectDescription = project.getDescription();
-			List<String> natureIds = new ArrayList<String>();
-			natureIds.addAll(Arrays.asList(projectDescription.getNatureIds()));
-			natureIds.add(natureId);
-			projectDescription.setNatureIds(natureIds.toArray(new String[natureIds.size()]));
-			project.setDescription(projectDescription, monitor);
-		}
+	private void addProjectNatures(IProject project, Set<String> newNatureIds, IProgressMonitor monitor)
+			throws CoreException {
+		IProjectDescription projectDescription = project.getDescription();
+		newNatureIds.addAll(Arrays.asList(projectDescription.getNatureIds()));
+		projectDescription.setNatureIds(newNatureIds.toArray(new String[newNatureIds.size()]));
+		project.setDescription(projectDescription, monitor);
 	}
 
 	@Override
