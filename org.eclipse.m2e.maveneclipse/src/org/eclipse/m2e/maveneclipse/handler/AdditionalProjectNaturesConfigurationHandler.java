@@ -20,7 +20,7 @@ import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
  */
 public class AdditionalProjectNaturesConfigurationHandler extends SingleParamterConfigurationHandler {
 
-	static final String PARAMETER_NAME = "additionalProjectnatures";
+	private static final String PARAMETER_NAME = "additionalProjectnatures";
 
 	static final String PROJECT_NATURE_NAME = "projectnature";
 

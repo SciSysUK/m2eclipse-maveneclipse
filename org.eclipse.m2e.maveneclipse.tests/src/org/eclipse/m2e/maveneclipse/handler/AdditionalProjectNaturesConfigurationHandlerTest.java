@@ -54,10 +54,11 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		MavenEclipseConfiguration mavenEclipseConfiguration = mock(MavenEclipseConfiguration.class);
 		given(context.getPluginConfiguration()).willReturn(mavenEclipseConfiguration);
 		ConfigurationParameter configurationParameter = mock(ConfigurationParameter.class);
-		given(mavenEclipseConfiguration.getParamter(AdditionalProjectNaturesConfigurationHandler.PARAMETER_NAME))
+		given(mavenEclipseConfiguration.getParamter(additionalProjectNaturesConfigurationHandler.getParamterName()))
 				.willReturn(configurationParameter);
-		given(mavenEclipseConfiguration.containsParamter(AdditionalProjectNaturesConfigurationHandler.PARAMETER_NAME))
-				.willReturn(true);
+		given(
+				mavenEclipseConfiguration.containsParamter(additionalProjectNaturesConfigurationHandler
+						.getParamterName())).willReturn(true);
 
 		List<ConfigurationParameter> projectNatureConfigurationParameters = new ArrayList<ConfigurationParameter>();
 		ConfigurationParameter firstProjectNature = createProjectNatureConfigParameter(FIRST_PROJECT_NATURE);
@@ -100,8 +101,8 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		MavenEclipseContext context = mock(MavenEclipseContext.class);
 		MavenEclipseConfiguration configuration = mock(MavenEclipseConfiguration.class);
 		given(context.getPluginConfiguration()).willReturn(configuration);
-		given(configuration.containsParamter(AdditionalProjectNaturesConfigurationHandler.PARAMETER_NAME)).willReturn(
-				true);
+		given(configuration.containsParamter(additionalProjectNaturesConfigurationHandler.getParamterName()))
+				.willReturn(true);
 
 		// When
 		boolean canHandle = additionalProjectNaturesConfigurationHandler.canHandle(context);
@@ -115,7 +116,8 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		MavenEclipseContext context = mock(MavenEclipseContext.class);
 		MavenEclipseConfiguration configuration = mock(MavenEclipseConfiguration.class);
 		given(context.getPluginConfiguration()).willReturn(configuration);
-		given(configuration.getParamter(AdditionalProjectNaturesConfigurationHandler.PARAMETER_NAME)).willReturn(null);
+		given(configuration.getParamter(additionalProjectNaturesConfigurationHandler.getParamterName())).willReturn(
+				null);
 
 		// When
 		boolean canHandle = additionalProjectNaturesConfigurationHandler.canHandle(context);
