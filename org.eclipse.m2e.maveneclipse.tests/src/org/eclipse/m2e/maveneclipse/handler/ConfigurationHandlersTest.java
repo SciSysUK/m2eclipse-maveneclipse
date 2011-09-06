@@ -1,4 +1,4 @@
-package org.eclipse.m2e.maveneclipse.configuration;
+package org.eclipse.m2e.maveneclipse.handler;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -13,10 +13,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
-import org.eclipse.m2e.maveneclipse.handler.AdditionalConfigConfigurationHandler;
-import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandler;
-import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandlers;
-import org.eclipse.m2e.maveneclipse.handler.AdditionalProjectNaturesConfigurationHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -29,22 +25,23 @@ import org.mockito.runners.MockitoJUnitRunner;
  * @author Phillip Webb
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MavenEclipseConfigurationHandlerTest {
+public class ConfigurationHandlersTest {
+
 	@Mock
 	private MavenEclipseContext context;
 
 	@Test
-	public void shouldDelegateToAllRelevantSectionHandlers() {
+	public void shouldDelegateToAllRelevantSectionHandlers() throws Exception {
 		ConfigurationHandler h1 = mock(ConfigurationHandler.class);
 		ConfigurationHandler h2 = mock(ConfigurationHandler.class);
 		ConfigurationHandler h3 = mock(ConfigurationHandler.class);
-		ConfigurationHandler[] sectionHandlers = { h1, h2, h3 };
-		ConfigurationHandlers configurationHandler = new ConfigurationHandlers(sectionHandlers);
+		ConfigurationHandler[] handlers = { h1, h2, h3 };
+		ConfigurationHandlers configurationHandlers = new ConfigurationHandlers(handlers);
 
 		given(h2.canHandle(context)).willReturn(true);
 		given(h3.canHandle(context)).willReturn(true);
 
-		configurationHandler.handle(context);
+		configurationHandlers.handle(context);
 
 		verify(h1, never()).handle(context);
 		verify(h2).handle(context);
@@ -60,7 +57,7 @@ public class MavenEclipseConfigurationHandlerTest {
 		}
 		Set<Class<?>> expected = new HashSet<Class<?>>();
 		expected.addAll(Arrays.<Class<?>> asList(AdditionalConfigConfigurationHandler.class,
-				AdditionalProjectNaturesConfigurationHandler.class));
+				ProjectNatureConfigurationHandler.class));
 		assertThat(defaultHandlerClasses, is(equalTo(expected)));
 	}
 }
