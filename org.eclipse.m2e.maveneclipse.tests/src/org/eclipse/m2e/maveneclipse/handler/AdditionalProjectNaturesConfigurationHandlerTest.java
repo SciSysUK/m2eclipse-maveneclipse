@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
@@ -53,9 +54,10 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 
 	private IProjectDescription projectDescription = mock(IProjectDescription.class);
 
+	private IProject project = mock(IProject.class);
+
 	@Before
 	public void setupBasicContextWithInitialNature() throws Exception {
-		IProject project = mock(IProject.class);
 		given(context.getProject()).willReturn(project);
 
 		given(project.getDescription()).willReturn(projectDescription);
@@ -64,7 +66,7 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 	}
 
 	@Test
-	public void shouldAddProjectNatures() throws Exception {
+	public void shouldAddAdditionalProjectNatures() throws Exception {
 		// Given
 		MavenEclipseConfiguration mavenEclipseConfiguration = mock(MavenEclipseConfiguration.class);
 		given(context.getPluginConfiguration()).willReturn(mavenEclipseConfiguration);
@@ -82,12 +84,16 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		projectNatureConfigurationParameters.add(secondProjectNature);
 		given(configurationParameter.getChildren()).willReturn(projectNatureConfigurationParameters);
 
+		IProgressMonitor monitor = mock(IProgressMonitor.class);
+		given(context.getMonitor()).willReturn(monitor);
+
 		// When
 		additionalProjectNaturesConfigurationHandler.handle(context);
 
 		// Then
 		ArgumentCaptor<String[]> argument = ArgumentCaptor.forClass(String[].class);
 		verify(projectDescription).setNatureIds(argument.capture());
+		verify(project).setDescription(projectDescription, monitor);
 
 		boolean hasInitialNature = false;
 		boolean hasFirstNature = false;
