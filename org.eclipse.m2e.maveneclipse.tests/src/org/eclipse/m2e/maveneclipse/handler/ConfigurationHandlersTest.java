@@ -72,7 +72,7 @@ public class ConfigurationHandlersTest {
 		}
 		Set<Class<?>> expected = new HashSet<Class<?>>();
 		expected.addAll(Arrays.<Class<?>> asList(AdditionalConfigConfigurationHandler.class,
-				ProjectNatureConfigurationHandler.class));
+				AdditionalProjectNaturesConfigurationHandler.class));
 		assertThat(defaultHandlerClasses, is(equalTo(expected)));
 	}
 }
