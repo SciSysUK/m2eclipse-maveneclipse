@@ -11,6 +11,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 
+/**
+ * A {@link ConfigurationHandler} that handles the configuration of <tt>additionalprojectnatures</tt> from the
+ * <tt>maven-eclipse-plugin</tt>.
+ * 
+ * @author Alex Clarke
+ * @author Phillip Webb
+ */
 public class AdditionalProjectNaturesConfigurationHandler extends SingleParamterConfigurationHandler {
 
 	static final String PARAMETER_NAME = "additionalProjectnatures";
