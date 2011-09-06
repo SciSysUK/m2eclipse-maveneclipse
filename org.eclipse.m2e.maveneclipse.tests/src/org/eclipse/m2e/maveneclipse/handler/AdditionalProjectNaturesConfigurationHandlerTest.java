@@ -19,6 +19,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+/**
+ * Tests for {@link AdditionalProjectNaturesConfigurationHandler}.
+ * 
+ * @author Alex Clarke
+ * @author Phillip Webb
+ */
 public class AdditionalProjectNaturesConfigurationHandlerTest {
 
 	private static final String FIRST_PROJECT_NATURE = "first";
@@ -52,6 +58,7 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 				.willReturn(configurationParameter);
 		given(mavenEclipseConfiguration.containsParamter(AdditionalProjectNaturesConfigurationHandler.PARAMETER_NAME))
 				.willReturn(true);
+
 		List<ConfigurationParameter> projectNatureConfigurationParameters = new ArrayList<ConfigurationParameter>();
 		ConfigurationParameter firstProjectNature = createProjectNatureConfigParameter(FIRST_PROJECT_NATURE);
 		ConfigurationParameter secondProjectNature = createProjectNatureConfigParameter(SECOND_PROJECT_NATURE);
