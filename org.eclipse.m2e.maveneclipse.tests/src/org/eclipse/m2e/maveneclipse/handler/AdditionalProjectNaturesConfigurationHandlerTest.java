@@ -27,7 +27,11 @@ import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Tests for {@link AdditionalProjectNaturesConfigurationHandler}.
@@ -35,6 +39,7 @@ import org.mockito.ArgumentCaptor;
  * @author Alex Clarke
  * @author Phillip Webb
  */
+@RunWith(MockitoJUnitRunner.class)
 public class AdditionalProjectNaturesConfigurationHandlerTest {
 
 	private static final String FIRST_PROJECT_NATURE = "first";
@@ -44,13 +49,20 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 
 	private AdditionalProjectNaturesConfigurationHandler additionalProjectNaturesConfigurationHandler = new AdditionalProjectNaturesConfigurationHandler();
 
-	private MavenEclipseContext context = mock(MavenEclipseContext.class);
+	@Mock
+	private MavenEclipseContext context;
 
-	private IProjectDescription projectDescription = mock(IProjectDescription.class);
+	@Mock
+	private IProjectDescription projectDescription;
 
-	private IProject project = mock(IProject.class);
+	@Mock
+	private IProject project;
 
-	private IProgressMonitor monitor = mock(IProgressMonitor.class);
+	@Mock
+	private IProgressMonitor monitor;
+
+	@Captor
+	ArgumentCaptor<String[]> argument;
 
 	@Before
 	public void setupBasicContextWithInitialNature() throws Exception {
@@ -86,7 +98,7 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		additionalProjectNaturesConfigurationHandler.handle(context);
 
 		// Then
-		ArgumentCaptor<String[]> argument = ArgumentCaptor.forClass(String[].class);
+
 		verify(projectDescription).setNatureIds(argument.capture());
 		verify(project).setDescription(projectDescription, monitor);
 

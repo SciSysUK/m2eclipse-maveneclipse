@@ -7,7 +7,7 @@
  * 
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.eclipse.m2e.maveneclipse.handler;
+package org.eclipse.m2e.maveneclipse.handler.additionalbuildcommands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +18,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
+import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.SingleParamterConfigurationHandler;
 
 /**
  * A {@link ConfigurationHandler} that deals with <tt>additionalBuildCommands</tt> from the
@@ -31,9 +33,8 @@ import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 public class AdditionalBuildCommandsConfigurationHandler extends SingleParamterConfigurationHandler {
 
 	private static final String PARAMETER_NAME = "additionalBuildcommands";
-	static final String COMPLETE_BUILD_COMMAND = "buildCommand";
-	static final String NAMED_BUILD_COMMAND = "buildcommand";
-	static final String NAME = "name";
+
+	private BuildCommandFactory commandFactory = new BuildCommandFactoryImpl();
 
 	@Override
 	protected String getParamterName() {
@@ -51,18 +52,21 @@ public class AdditionalBuildCommandsConfigurationHandler extends SingleParamterC
 
 		// Add a new command for each build command ConfigurationParameter
 		for (ConfigurationParameter child : paramter.getChildren()) {
-			if (COMPLETE_BUILD_COMMAND.equals(child.getName())) {
-				ICommand newCommand = projectDescription.newCommand();
-				newCommand.setBuilderName(child.getChild(NAME).getValue());
-				buildSpec.add(newCommand);
-			} else if (NAMED_BUILD_COMMAND.equals(child.getName())) {
-				ICommand newCommand = projectDescription.newCommand();
-				newCommand.setBuilderName(child.getValue());
-				buildSpec.add(newCommand);
+			ICommand newICommand = commandFactory.createICommand(projectDescription, child);
+			if (newICommand != null) {
+				buildSpec.add(newICommand);
 			}
 		}
 
 		projectDescription.setBuildSpec(buildSpec.toArray(projectDescription.getBuildSpec()));
 		project.setDescription(projectDescription, context.getMonitor());
+	}
+
+	/**
+	 * Enables injection of an {@link BuildCommandFactoryImpl}
+	 * @param commandFactory
+	 */
+	public void setCommandFactory(BuildCommandFactory commandFactory) {
+		this.commandFactory = commandFactory;
 	}
 }
