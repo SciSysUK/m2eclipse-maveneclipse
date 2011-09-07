@@ -26,4 +26,4 @@ The following configuration parameters are supported by this plugin:
 * additionalProjectFacets
 * additionalConfig
 
-For details documentation please see [http://maven.apache.org/plugins/maven-eclipse-plugin/eclipse-mojo.html]
+For details documentation please see http://maven.apache.org/plugins/maven-eclipse-plugin/eclipse-mojo.html
