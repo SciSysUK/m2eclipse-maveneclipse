@@ -56,6 +56,8 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 
 	private IProject project = mock(IProject.class);
 
+	private IProgressMonitor monitor = mock(IProgressMonitor.class);
+
 	@Before
 	public void setupBasicContextWithInitialNature() throws Exception {
 		given(context.getProject()).willReturn(project);
@@ -63,6 +65,8 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		given(project.getDescription()).willReturn(projectDescription);
 		String[] initialNatureIds = { INITIAL_NATURE };
 		given(projectDescription.getNatureIds()).willReturn(initialNatureIds);
+
+		given(context.getMonitor()).willReturn(monitor);
 	}
 
 	@Test
@@ -83,9 +87,6 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		projectNatureConfigurationParameters.add(firstProjectNature);
 		projectNatureConfigurationParameters.add(secondProjectNature);
 		given(configurationParameter.getChildren()).willReturn(projectNatureConfigurationParameters);
-
-		IProgressMonitor monitor = mock(IProgressMonitor.class);
-		given(context.getMonitor()).willReturn(monitor);
 
 		// When
 		additionalProjectNaturesConfigurationHandler.handle(context);
