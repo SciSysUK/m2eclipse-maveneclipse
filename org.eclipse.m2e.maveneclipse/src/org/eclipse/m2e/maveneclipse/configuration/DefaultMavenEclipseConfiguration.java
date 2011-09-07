@@ -24,7 +24,7 @@ public class DefaultMavenEclipseConfiguration implements MavenEclipseConfigurati
 
 	/**
 	 * Create a new {@link DefaultMavenEclipseConfiguration} instance.
-	 * @param plugin the source plugin
+	 * @param plugin the <tt>maven-eclipse-plugin</tt>
 	 */
 	public DefaultMavenEclipseConfiguration(Plugin plugin) {
 		if (plugin == null) {

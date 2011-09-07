@@ -12,7 +12,7 @@ package org.eclipse.m2e.maveneclipse.configuration;
 import java.util.List;
 
 /**
- * A single configuration parameter.
+ * Represents a section of configuration from the <tt>maven-eclipse-plugin</tt>.
  * 
  * @author Alex Clarke
  * @author Phillip Webb
@@ -33,7 +33,7 @@ public interface ConfigurationParameter {
 	public List<ConfigurationParameter> getChildren();
 
 	/**
-	 * Determined if this parameter has a child parameter with the specified name.
+	 * Determine if this parameter has a child parameter with the specified name.
 	 * @param name the name of the child
 	 * @return true if the a child exists
 	 */

@@ -35,11 +35,11 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 
 	private static Logger log = LoggerFactory.getLogger(AbstractCustomizableLifecycleMapping.class);
 
-	private static final String GROUP_ID = "org.apache.maven.plugins";
+	private static final String GROUP_ID = "org.apache.maven.plugins"; //$NON-NLS-1$
 
-	private static final String ARTIFACT_ID = "maven-eclipse-plugin";
+	private static final String ARTIFACT_ID = "maven-eclipse-plugin"; //$NON-NLS-1$
 
-	private ConfigurationHandlers handler = new ConfigurationHandlers();
+	private ConfigurationHandlers handlers = new ConfigurationHandlers();
 
 	@Override
 	public void configure(ProjectConfigurationRequest request, IProgressMonitor monitor) throws CoreException {
@@ -52,22 +52,23 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 		}
 	}
 
+	private boolean isMavenEclipsePlugin(Plugin plugin) {
+		return GROUP_ID.equals(plugin.getGroupId()) && ARTIFACT_ID.equals(plugin.getArtifactId());
+	}
+
 	private void configure(ProjectConfigurationRequest request, IProgressMonitor monitor, Plugin plugin)
 			throws CoreException {
 		MavenEclipseContext context = new DefaultMavenEclipseContext(request, monitor, plugin);
 		try {
-			handler.handle(context);
+			handlers.handle(context);
 		} catch (Exception e) {
 			if (e instanceof CoreException) {
 				throw (CoreException) e;
 			}
-			String msg = NLS.bind(Messages.MavenEclipseProjectConfigurator_error, e.getMessage());
+			String msg = NLS.bind(Messages.mavenEclipseProjectConfiguratorError, e.getMessage());
 			log.error(msg, e);
 			throw new CoreException(new Status(IStatus.ERROR, MavenEclipsePlugin.PLUGIN_ID, -1, msg, e));
 		}
 	}
 
-	private boolean isMavenEclipsePlugin(Plugin plugin) {
-		return GROUP_ID.equals(plugin.getGroupId()) && ARTIFACT_ID.equals(plugin.getArtifactId());
-	}
 }

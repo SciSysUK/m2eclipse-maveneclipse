@@ -10,7 +10,7 @@
 package org.eclipse.m2e.maveneclipse.configuration;
 
 /**
- * Provides access to <tt>pom.xml</tt> configuration defined for the <tt>maven-eclipse-plugin</tt>.
+ * Provides access to the complete configuration defined for the <tt>maven-eclipse-plugin</tt>.
  * 
  * @author Alex Clarke
  * @author Phillip Webb
@@ -21,15 +21,15 @@ public interface MavenEclipseConfiguration {
 	 * Return a single configuration parameter from the configuration.
 	 * 
 	 * @param name the name of the parameter
-	 * @return the configuration paramter or <tt>null</tt> if no paramter is defined.
+	 * @return the configuration parameter or <tt>null</tt> if no parameter is defined
 	 */
 	ConfigurationParameter getParamter(String name);
 
 	/**
-	 * Determines if the configuration contains the specifed paramter.
+	 * Determines if the configuration contains the specified parameter.
 	 * 
-	 * @param name the name of the paramter
-	 * @return <tt>true</tt> if {@link #getParamter(String)} returns a <tt>non-null</tt> result.
+	 * @param name the name of the parameter
+	 * @return <tt>true</tt> if {@link #getParamter(String)} returns a <tt>non-null</tt> result
 	 */
 	boolean containsParamter(String name);
 }

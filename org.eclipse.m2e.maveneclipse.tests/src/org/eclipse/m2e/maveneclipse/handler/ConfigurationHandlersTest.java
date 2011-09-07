@@ -59,7 +59,7 @@ public class ConfigurationHandlersTest {
 
 	@Test
 	public void shouldHaveDefaultHandlers() throws Exception {
-		ConfigurationHandler[] defaultHandlers = new ConfigurationHandlers().getSectionHandlers();
+		ConfigurationHandler[] defaultHandlers = new ConfigurationHandlers().getConfigurationHandlers();
 		Set<Class<?>> defaultHandlerClasses = new HashSet<Class<?>>();
 		for (ConfigurationHandler handler : defaultHandlers) {
 			defaultHandlerClasses.add(handler.getClass());

@@ -45,13 +45,13 @@ public class BuildCommandFactoryImplTest {
 		String buildCommandName = "my.build.command";
 		given(buildCommandConfigParameter.getValue()).willReturn(buildCommandName);
 		given(buildCommandConfigParameter.getName()).willReturn(
-				BuildCommandFactoryImpl.NAMED_BUILD_COMMAND_ELEMENT_NAME);
+				BuildCommandFactoryImpl.LEGACY_BUILD_COMMAND_ELEMENT_NAME);
 
 		ICommand newCommand = mock(ICommand.class);
 		given(projectDescription.newCommand()).willReturn(newCommand);
 
 		// When
-		ICommand createdICommand = factory.createICommand(projectDescription, buildCommandConfigParameter);
+		ICommand createdICommand = factory.createCommand(projectDescription, buildCommandConfigParameter);
 
 		// Then
 		assertSame(newCommand, createdICommand);
@@ -65,7 +65,7 @@ public class BuildCommandFactoryImplTest {
 
 		ConfigurationParameter buildCommandConfigParameter = mock(ConfigurationParameter.class);
 		given(buildCommandConfigParameter.getName()).willReturn(
-				BuildCommandFactoryImpl.COMPLETE_BUILD_COMMAND_ELEMENT_NAME);
+				BuildCommandFactoryImpl.BUILD_COMMAND_ELEMENT_NAME);
 
 		ConfigurationParameter nameConfigurationParameter = mock(ConfigurationParameter.class);
 		given(buildCommandConfigParameter.getChild(BuildCommandFactoryImpl.NAME_ELEMENT_NAME)).willReturn(
@@ -76,13 +76,13 @@ public class BuildCommandFactoryImplTest {
 		String argumentName = "test-arg";
 		String argumentValue = "test-value";
 		ConfigurationParameter argumentsParameter = createArgumentConfigurationParameter(argumentName, argumentValue);
-		given(buildCommandConfigParameter.getChild(BuildCommandFactoryImpl.ARGUMENTS)).willReturn(argumentsParameter);
+		given(buildCommandConfigParameter.getChild(BuildCommandFactoryImpl.ARGUMENTS_ELEMENT_NAME)).willReturn(argumentsParameter);
 
 		ICommand newCommand = mock(ICommand.class);
 		given(projectDescription.newCommand()).willReturn(newCommand);
 
 		// When
-		ICommand createdICommand = factory.createICommand(projectDescription, buildCommandConfigParameter);
+		ICommand createdICommand = factory.createCommand(projectDescription, buildCommandConfigParameter);
 
 		// Then	
 		assertSame(newCommand, createdICommand);
@@ -104,7 +104,7 @@ public class BuildCommandFactoryImplTest {
 		ConfigurationParameter buildCommandConfigParameter = mock(ConfigurationParameter.class);
 
 		// When
-		ICommand actualICommand = factory.createICommand(projectDescription, buildCommandConfigParameter);
+		ICommand actualICommand = factory.createCommand(projectDescription, buildCommandConfigParameter);
 
 		// Then
 		verifyZeroInteractions(projectDescription);

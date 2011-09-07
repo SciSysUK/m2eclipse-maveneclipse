@@ -96,13 +96,13 @@ public class AdditionalBuildCommandsConfigurationHandlerTest {
 		ConfigurationParameter firstBuildCommandParameter = mock(ConfigurationParameter.class);
 		buildCommandParameters.add(firstBuildCommandParameter);
 		ICommand iCommandForFirst = mock(ICommand.class);
-		given(commandFactory.createICommand(projectDescription, firstBuildCommandParameter)).willReturn(
+		given(commandFactory.createCommand(projectDescription, firstBuildCommandParameter)).willReturn(
 				iCommandForFirst);
 
 		ConfigurationParameter secondBuildCommandParameter = mock(ConfigurationParameter.class);
 		buildCommandParameters.add(secondBuildCommandParameter);
 		ICommand iCommandForSecond = mock(ICommand.class);
-		given(commandFactory.createICommand(projectDescription, secondBuildCommandParameter)).willReturn(
+		given(commandFactory.createCommand(projectDescription, secondBuildCommandParameter)).willReturn(
 				iCommandForSecond);
 
 		// When

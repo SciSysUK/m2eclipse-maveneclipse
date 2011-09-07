@@ -24,12 +24,12 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 
 /**
  * A {@link ConfigurationHandler} that deals with <tt>additionalProjectFacets</tt> from the
- * <tt>maven-eclipse-plugin</tt>.
+ * <tt>maven-eclipse-plugin</tt> configuration.
  * 
  * @author Alex Clarke
  * @author Phillip Webb
  */
-public class AdditionalProjectFacetsConfigurationHandler extends SingleParamterConfigurationHandler {
+public class AdditionalProjectFacetsConfigurationHandler extends SingleParameterConfigurationHandler {
 
 	@Override
 	protected String getParamterName() {
@@ -38,7 +38,6 @@ public class AdditionalProjectFacetsConfigurationHandler extends SingleParamterC
 
 	@Override
 	protected void handle(MavenEclipseContext context, ConfigurationParameter parameter) throws Exception {
-		IFacetedProject facetedProject = createFacetedProject(context.getProject());
 		Set<Action> actions = new LinkedHashSet<IFacetedProject.Action>();
 		for (ConfigurationParameter child : parameter.getChildren()) {
 			IProjectFacet facet = ProjectFacetsManager.getProjectFacet(child.getName());
@@ -48,6 +47,7 @@ public class AdditionalProjectFacetsConfigurationHandler extends SingleParamterC
 			}
 		}
 		if (actions.size() > 0) {
+			IFacetedProject facetedProject = createFacetedProject(context.getProject());
 			facetedProject.modify(actions, context.getMonitor());
 		}
 	}

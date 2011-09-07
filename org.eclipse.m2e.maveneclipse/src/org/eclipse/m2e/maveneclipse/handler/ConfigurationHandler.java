@@ -13,8 +13,8 @@ import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
 
 /**
- * Strategy interface called by {@link ConfigurationHandlers} that can handle one particular section of the
- * <tt>maven-eclipse-plugin</tt> {@link MavenEclipseConfiguration}.
+ * Strategy interface called by {@link ConfigurationHandlers} that can handle part of the <tt>maven-eclipse-plugin</tt>
+ * {@link MavenEclipseConfiguration configuration}.
  * 
  * @author Alex Clarke
  * @author Phillip Webb
@@ -32,8 +32,8 @@ public interface ConfigurationHandler {
 	boolean canHandle(MavenEclipseContext context);
 
 	/**
-	 * Handle the {@link MavenEclipseConfiguration} applying the relevant section to the m2e eclipse project. This
-	 * method will only be called when {@link #isSupported} returns <tt>true</tt>.
+	 * Handle the {@link MavenEclipseConfiguration} applying the relevant sections to the eclipse project. This method
+	 * will only be called when {@link #canHandle} returns <tt>true</tt>.
 	 * 
 	 * @param context the context
 	 * @throws Exception

@@ -10,7 +10,7 @@
 package org.eclipse.m2e.maveneclipse.handler;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -21,43 +21,39 @@ import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 
 /**
- * A {@link ConfigurationHandler} that handles the configuration of <tt>additionalprojectnatures</tt> from the
- * <tt>maven-eclipse-plugin</tt>.
+ * A {@link ConfigurationHandler} that handles <tt>additionalprojectnatures</tt> from the <tt>maven-eclipse-plugin</tt>
+ * configuration.
  * 
  * @author Alex Clarke
  * @author Phillip Webb
  */
-public class AdditionalProjectNaturesConfigurationHandler extends SingleParamterConfigurationHandler {
-
-	private static final String PARAMETER_NAME = "additionalProjectnatures";
+public class AdditionalProjectNaturesConfigurationHandler extends SingleParameterConfigurationHandler {
 
 	static final String PROJECT_NATURE_NAME = "projectnature";
 
-	public void handle(MavenEclipseContext context, ConfigurationParameter configurationParameter) {
-		Set<String> newNatureIDs = new HashSet<String>();
-		for (ConfigurationParameter child : configurationParameter.getChildren()) {
-			if (PROJECT_NATURE_NAME.equals(child.getName())) {
-				newNatureIDs.add(child.getValue());
-			}
-		}
-		try {
-			addProjectNatures(context.getProject(), newNatureIDs, context.getMonitor());
-		} catch (CoreException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private void addProjectNatures(IProject project, Set<String> newNatureIds, IProgressMonitor monitor)
-			throws CoreException {
-		IProjectDescription projectDescription = project.getDescription();
-		newNatureIds.addAll(Arrays.asList(projectDescription.getNatureIds()));
-		projectDescription.setNatureIds(newNatureIds.toArray(new String[newNatureIds.size()]));
-		project.setDescription(projectDescription, monitor);
-	}
-
 	@Override
 	protected String getParamterName() {
-		return PARAMETER_NAME;
+		return "additionalProjectnatures";
 	}
 
+	public void handle(MavenEclipseContext context, ConfigurationParameter configurationParameter) throws Exception {
+		Set<String> additionalNatureIDs = new LinkedHashSet<String>();
+		for (ConfigurationParameter child : configurationParameter.getChildren()) {
+			if (PROJECT_NATURE_NAME.equals(child.getName())) {
+				additionalNatureIDs.add(child.getValue());
+			}
+		}
+		if (!additionalNatureIDs.isEmpty()) {
+			addAdditionalProjectNatures(context.getProject(), additionalNatureIDs, context.getMonitor());
+		}
+	}
+
+	private void addAdditionalProjectNatures(IProject project, Set<String> additionalNatureIDs, IProgressMonitor monitor)
+			throws CoreException {
+		IProjectDescription projectDescription = project.getDescription();
+		Set<String> natureIds = new LinkedHashSet<String>();
+		natureIds.addAll(Arrays.asList(projectDescription.getNatureIds()));
+		projectDescription.setNatureIds(additionalNatureIDs.toArray(new String[additionalNatureIDs.size()]));
+		project.setDescription(projectDescription, monitor);
+	}
 }

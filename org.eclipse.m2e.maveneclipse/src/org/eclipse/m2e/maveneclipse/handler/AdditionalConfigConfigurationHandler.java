@@ -28,7 +28,7 @@ import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
  * @author Alex Clarke
  * @author Phillip Webb
  */
-public class AdditionalConfigConfigurationHandler extends SingleParamterConfigurationHandler {
+public class AdditionalConfigConfigurationHandler extends SingleParameterConfigurationHandler {
 
 	@Override
 	protected String getParamterName() {
@@ -41,7 +41,7 @@ public class AdditionalConfigConfigurationHandler extends SingleParamterConfigur
 	}
 
 	/**
-	 * Loads the additional config files and can copy the eclipse project.
+	 * Additional config files that can be copied to the eclipse project.
 	 */
 	private static class AdditionalConfigFiles {
 
@@ -53,7 +53,8 @@ public class AdditionalConfigConfigurationHandler extends SingleParamterConfigur
 
 		public AdditionalConfigFiles(MavenEclipseContext context, ConfigurationParameter paramter) {
 			this.context = context;
-			this.locationRoot = context.getMavenProject().getFile().getParentFile();
+			File pomFile = context.getMavenProject().getFile();
+			this.locationRoot = pomFile.getParentFile();
 			this.files = getConfiguredFiles(paramter);
 		}
 
@@ -86,18 +87,18 @@ public class AdditionalConfigConfigurationHandler extends SingleParamterConfigur
 		 * Factory method used to create a new file. This method follows the same precedence logic as the
 		 * <tt>maven-eclipse-plugin</tt> namely: <ul> <li>content</li> <li>location</li> <li>url</li> </ul>
 		 * 
-		 * @param parameter the parameter
+		 * @param fileParameter the parameter
 		 * @return a config file instance
 		 */
-		private AdditionalConfigFile newFile(ConfigurationParameter parameter) {
-			if (parameter.hasChild("content")) {
-				return new AdditionalConfigContentFile(parameter);
+		private AdditionalConfigFile newFile(ConfigurationParameter fileParameter) {
+			if (fileParameter.hasChild("content")) {
+				return new AdditionalConfigContentFile(fileParameter);
 			}
-			if (parameter.hasChild("location")) {
-				return new AdditionalConfigLocationFile(parameter);
+			if (fileParameter.hasChild("location")) {
+				return new AdditionalConfigLocationFile(fileParameter);
 			}
-			if (parameter.hasChild("url")) {
-				return new AdditionalConfigUrlFile(parameter);
+			if (fileParameter.hasChild("url")) {
+				return new AdditionalConfigUrlFile(fileParameter);
 			}
 			throw new IllegalStateException("Malformed additionalConfig file paramter");
 		}
@@ -110,14 +111,14 @@ public class AdditionalConfigConfigurationHandler extends SingleParamterConfigur
 		 */
 		private abstract class AdditionalConfigFile {
 
-			private ConfigurationParameter parameter;
+			private ConfigurationParameter fileParameter;
 
 			public AdditionalConfigFile(ConfigurationParameter parameter) {
-				this.parameter = parameter;
+				this.fileParameter = parameter;
 			}
 
-			protected final ConfigurationParameter getParameter() {
-				return parameter;
+			protected final ConfigurationParameter getFileParameter() {
+				return fileParameter;
 			}
 
 			/**
@@ -125,14 +126,14 @@ public class AdditionalConfigConfigurationHandler extends SingleParamterConfigur
 			 * @throws Exception
 			 */
 			public void copyToProject() throws Exception {
-				String name = parameter.getChild("name").getValue();
-				IFile destination = context.getProject().getFile(name);
-				if (destination.exists()) {
-					destination.delete(true, context.getMonitor());
+				String name = fileParameter.getChild("name").getValue();
+				IFile projectFile = context.getProject().getFile(name);
+				if (projectFile.exists()) {
+					projectFile.delete(true, context.getMonitor());
 				}
 				InputStream content = getContent();
 				try {
-					destination.create(new BufferedInputStream(content), true, context.getMonitor());
+					projectFile.create(new BufferedInputStream(content), true, context.getMonitor());
 				} finally {
 					content.close();
 				}
@@ -157,7 +158,7 @@ public class AdditionalConfigConfigurationHandler extends SingleParamterConfigur
 
 			@Override
 			protected InputStream getContent() throws Exception {
-				String content = getParameter().getChild("content").getValue();
+				String content = getFileParameter().getChild("content").getValue();
 				return new ByteArrayInputStream(content.getBytes(System.getProperty("file.encoding")));
 			}
 		}
@@ -173,9 +174,8 @@ public class AdditionalConfigConfigurationHandler extends SingleParamterConfigur
 
 			@Override
 			protected InputStream getContent() throws Exception {
-				String location = getParameter().getChild("url").getValue();
-				URL url = new URL(location);
-				return url.openStream();
+				String url = getFileParameter().getChild("url").getValue();
+				return new URL(url).openStream();
 			}
 		}
 
@@ -190,7 +190,7 @@ public class AdditionalConfigConfigurationHandler extends SingleParamterConfigur
 
 			@Override
 			protected InputStream getContent() throws Exception {
-				String location = getParameter().getChild("location").getValue();
+				String location = getFileParameter().getChild("location").getValue();
 				File locationFile = new File(locationRoot, location);
 				if (!locationFile.exists()) {
 					throw new IllegalStateException("Location file " + locationFile.getAbsolutePath()

@@ -21,6 +21,6 @@ public interface BuildCommandFactory {
 	 * @param parameter the {@link ConfigurationParameter} containing the details of the command.
 	 * @return a new {@link ICommand} or <tt>null</tt> if no new {@link ICommand} could be created.
 	 */
-	public ICommand createICommand(IProjectDescription projectDescription, ConfigurationParameter parameter);
+	public ICommand createCommand(IProjectDescription projectDescription, ConfigurationParameter parameter);
 
 }

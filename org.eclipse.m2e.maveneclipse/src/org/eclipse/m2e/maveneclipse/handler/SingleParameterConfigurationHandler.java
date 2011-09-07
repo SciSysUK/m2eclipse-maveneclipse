@@ -11,6 +11,7 @@ package org.eclipse.m2e.maveneclipse.handler;
 
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
+import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
 
 /**
  * Convenient base class for {@link ConfigurationHandler}s that are based around a single configuration parameter.
@@ -18,7 +19,7 @@ import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
  * @author Alex Clarke
  * @author Phillip Webb
  */
-public abstract class SingleParamterConfigurationHandler implements ConfigurationHandler {
+public abstract class SingleParameterConfigurationHandler implements ConfigurationHandler {
 
 	/**
 	 * Returns the parameter name that is used to determine if the handler should run.
@@ -39,5 +40,13 @@ public abstract class SingleParamterConfigurationHandler implements Configuratio
 		handle(context, parameter);
 	}
 
+	/**
+	 * Handle the {@link MavenEclipseConfiguration} applying the specified {@link ConfigurationParameter configuration}
+	 * to the eclipse project.
+	 * 
+	 * @param context the {@link MavenEclipseContext}
+	 * @param parameter the {@link ConfigurationParameter}
+	 * @throws Exception
+	 */
 	protected abstract void handle(MavenEclipseContext context, ConfigurationParameter parameter) throws Exception;
 }
