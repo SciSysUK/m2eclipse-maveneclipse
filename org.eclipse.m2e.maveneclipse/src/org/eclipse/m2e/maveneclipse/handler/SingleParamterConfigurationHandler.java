@@ -38,12 +38,12 @@ public abstract class SingleParamterConfigurationHandler implements Configuratio
 	}
 
 	public final void handle(MavenEclipseContext context) throws Exception {
-		ConfigurationParameter paramter = context.getPluginConfiguration().getParamter(getParamterName());
-		if (!canHandle(context) || paramter == null) {
+		ConfigurationParameter parameter = context.getPluginConfiguration().getParamter(getParamterName());
+		if (!canHandle(context) || parameter == null) {
 			throw new IllegalStateException("Unable to handle context");
 		}
-		handle(context, paramter);
+		handle(context, parameter);
 	}
 
-	protected abstract void handle(MavenEclipseContext context, ConfigurationParameter paramter) throws Exception;
+	protected abstract void handle(MavenEclipseContext context, ConfigurationParameter parameter) throws Exception;
 }
