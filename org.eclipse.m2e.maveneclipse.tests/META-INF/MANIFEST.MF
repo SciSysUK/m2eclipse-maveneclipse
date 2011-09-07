@@ -3,7 +3,7 @@ Fragment-Host: org.eclipse.m2e.maveneclipse
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.eclipse.m2e.maveneclipse.tests
-Bundle-Version: 0.0.0.qualifier
+Bundle-Version: 0.0.1.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.junit;bundle-version="4.8.2",
  org.eclipse.jst.jsf.core;bundle-version="1.3.5"
