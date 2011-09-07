@@ -1,0 +1,29 @@
+Maven M2E maven-eclipse-plugin
+==============================
+
+Overview
+--------
+
+Applies POM.xml configuration defined against the maven-eclipse-plugin to m2e eclipse projects.  Using this plugin it is possible to define additional eclipse settings in a consistent manner whilst retaining back compatibily with users that do not run eclipse with m2e.
+
+Some common examples for this include:
+
+* Configuring project specific settings (such as auto-formatting code on save)
+* Applying additional natures to projects (for example the Spring nature)
+* Enabling specific project facets suchs as JSF
+
+(See the samples directory for example projects) 
+
+**NOTE**: maven-eclipse-plugin goals are expected to be executed manually and must not be bound to any lifecycle. 
+  
+Supported Parameters
+--------------------
+
+The following configuration parameters are supported by this plugin:
+
+* additionalBuildCommands
+* additionalProjectNatures
+* additionalProjectFacets
+* additionalConfig
+
+For details documentation please see [http://maven.apache.org/plugins/maven-eclipse-plugin/eclipse-mojo.html]
