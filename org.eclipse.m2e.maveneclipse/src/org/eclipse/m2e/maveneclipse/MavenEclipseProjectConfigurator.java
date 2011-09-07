@@ -1,27 +1,24 @@
 /*
  * Copyright 2000-2011 the original author or authors.
- *  
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *  
- *     http://www.apache.org/licenses/LICENSE-2.0
- *  
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * 
+ * http://www.eclipse.org/legal/epl-v10.html
  */
 package org.eclipse.m2e.maveneclipse;
 
 import org.apache.maven.model.Plugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.m2e.core.project.configurator.AbstractCustomizableLifecycleMapping;
 import org.eclipse.m2e.core.project.configurator.AbstractProjectConfigurator;
 import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
 import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandlers;
+import org.eclipse.osgi.util.NLS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,8 +61,9 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 			if (e instanceof CoreException) {
 				throw (CoreException) e;
 			}
-			//FIXME
-			throw new RuntimeException(e);
+			String msg = NLS.bind(Messages.MavenEclipseProjectConfigurator_error, e.getMessage());
+			log.error(msg, e);
+			throw new CoreException(new Status(IStatus.ERROR, MavenEclipsePlugin.PLUGIN_ID, -1, msg, e));
 		}
 	}
 
