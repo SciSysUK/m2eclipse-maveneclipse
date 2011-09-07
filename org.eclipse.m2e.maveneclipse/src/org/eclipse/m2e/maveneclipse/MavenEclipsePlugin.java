@@ -7,17 +7,16 @@
  * 
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.eclipse.m2e.maveneclipse.handler;
+package org.eclipse.m2e.maveneclipse;
 
 /**
- * A {@link ConfigurationHandler} that deals with <tt>additionalBuildCommands</tt> from the
- * <tt>maven-eclipse-plugin</tt>.
+ * Details for the Maven Eclipse M2E Plugin.
  * 
  * @author Alex Clarke
  * @author Phillip Webb
  */
-public class AdditionalBuildCommandsConfigurationHandler {
+public class MavenEclipsePlugin {
 
-	//FIXME
+	public static final String PLUGIN_ID = "org.eclipse.m2e.maveneclipse"; //$NON-NLS-1$
 
 }
