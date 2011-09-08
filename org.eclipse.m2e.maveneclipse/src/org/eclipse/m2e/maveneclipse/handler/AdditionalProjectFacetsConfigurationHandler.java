@@ -40,7 +40,12 @@ public class AdditionalProjectFacetsConfigurationHandler extends SingleParameter
 	protected void handle(MavenEclipseContext context, ConfigurationParameter parameter) throws Exception {
 		Set<Action> actions = new LinkedHashSet<IFacetedProject.Action>();
 		for (ConfigurationParameter child : parameter.getChildren()) {
-			IProjectFacet facet = ProjectFacetsManager.getProjectFacet(child.getName());
+			IProjectFacet facet;
+			try {
+				facet = ProjectFacetsManager.getProjectFacet(child.getName());
+			} catch (IllegalAccessError e) {
+				facet = null;
+			}
 			if (facet != null) {
 				IProjectFacetVersion projectFacetVersion = facet.getVersion(child.getValue());
 				actions.add(new IFacetedProject.Action(IFacetedProject.Action.Type.INSTALL, projectFacetVersion, null));
