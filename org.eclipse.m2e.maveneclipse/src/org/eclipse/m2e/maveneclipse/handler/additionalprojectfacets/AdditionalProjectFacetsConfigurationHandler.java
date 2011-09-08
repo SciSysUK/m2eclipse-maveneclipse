@@ -7,7 +7,7 @@
  * 
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.eclipse.m2e.maveneclipse.handler;
+package org.eclipse.m2e.maveneclipse.handler.additionalprojectfacets;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -16,6 +16,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
+import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.SingleParameterConfigurationHandler;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;

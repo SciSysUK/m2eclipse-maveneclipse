@@ -22,7 +22,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
+import org.eclipse.m2e.maveneclipse.handler.additionalbuildcommands.AdditionalBuildCommandsConfigurationHandler;
 import org.eclipse.m2e.maveneclipse.handler.additionalconfig.AdditionalConfigConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.additionalprojectfacets.AdditionalProjectFacetsConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.additionalprojectnatures.AdditionalProjectNaturesConfigurationHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -66,8 +69,9 @@ public class ConfigurationHandlersTest {
 			defaultHandlerClasses.add(handler.getClass());
 		}
 		Set<Class<?>> expected = new HashSet<Class<?>>();
-		expected.addAll(Arrays.<Class<?>> asList(AdditionalConfigConfigurationHandler.class,
-				AdditionalProjectNaturesConfigurationHandler.class, AdditionalProjectFacetsConfigurationHandler.class));
+		expected.addAll(Arrays.<Class<?>> asList(AdditionalBuildCommandsConfigurationHandler.class,
+				AdditionalConfigConfigurationHandler.class, AdditionalProjectFacetsConfigurationHandler.class,
+				AdditionalProjectNaturesConfigurationHandler.class));
 		assertThat(defaultHandlerClasses, is(equalTo(expected)));
 	}
 }
