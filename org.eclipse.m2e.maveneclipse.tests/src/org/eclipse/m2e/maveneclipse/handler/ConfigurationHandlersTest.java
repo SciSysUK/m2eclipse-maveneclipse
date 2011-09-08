@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
+import org.eclipse.m2e.maveneclipse.handler.additionalconfig.AdditionalConfigConfigurationHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

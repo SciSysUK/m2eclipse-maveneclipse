@@ -7,7 +7,7 @@
  * 
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.eclipse.m2e.maveneclipse.handler;
+package org.eclipse.m2e.maveneclipse.handler.additionalconfig;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -62,7 +62,7 @@ public class AdditionalConfigConfigurationHandlerTest {
 	@Mock
 	private ConfigurationParameter additionalConfigParameter;
 
-	private File location = new File("./src/org/eclipse/m2e/maveneclipse/handler");
+	private File location = new File("./src/org/eclipse/m2e/maveneclipse/handler/additionalconfig");
 
 	@Mock
 	private IFile projectFile;
