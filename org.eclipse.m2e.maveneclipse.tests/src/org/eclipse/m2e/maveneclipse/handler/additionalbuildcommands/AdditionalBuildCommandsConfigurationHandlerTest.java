@@ -15,6 +15,7 @@
  */
 package org.eclipse.m2e.maveneclipse.handler.additionalbuildcommands;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -32,8 +33,7 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
-import org.eclipse.m2e.maveneclipse.handler.additionalbuildcommands.AdditionalBuildCommandsConfigurationHandler;
-import org.eclipse.m2e.maveneclipse.handler.additionalbuildcommands.BuildCommandFactory;
+import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -81,6 +81,7 @@ public class AdditionalBuildCommandsConfigurationHandlerTest {
 		given(context.getProject()).willReturn(project);
 		given(project.getDescription()).willReturn(projectDescription);
 
+		given(initialBuildCommand.getBuilderName()).willReturn("initial");
 		ICommand[] initialBuildSpecs = { initialBuildCommand };
 		given(projectDescription.getBuildSpec()).willReturn(initialBuildSpecs);
 		given(context.getMonitor()).willReturn(monitor);
@@ -96,12 +97,14 @@ public class AdditionalBuildCommandsConfigurationHandlerTest {
 		ConfigurationParameter firstBuildCommandParameter = mock(ConfigurationParameter.class);
 		buildCommandParameters.add(firstBuildCommandParameter);
 		ICommand iCommandForFirst = mock(ICommand.class);
-		given(commandFactory.createCommand(projectDescription, firstBuildCommandParameter)).willReturn(
-				iCommandForFirst);
+		given(iCommandForFirst.getBuilderName()).willReturn("first");
+		given(commandFactory.createCommand(projectDescription, firstBuildCommandParameter))
+				.willReturn(iCommandForFirst);
 
 		ConfigurationParameter secondBuildCommandParameter = mock(ConfigurationParameter.class);
 		buildCommandParameters.add(secondBuildCommandParameter);
 		ICommand iCommandForSecond = mock(ICommand.class);
+		given(iCommandForSecond.getBuilderName()).willReturn("second");
 		given(commandFactory.createCommand(projectDescription, secondBuildCommandParameter)).willReturn(
 				iCommandForSecond);
 
@@ -118,6 +121,36 @@ public class AdditionalBuildCommandsConfigurationHandlerTest {
 		assertTrue(actualBuildSpec.contains(iCommandForSecond));
 
 		verify(project).setDescription(projectDescription, monitor);
+	}
+
+	@Test
+	public void shouldClaimToHandleContextsWithAdditionalProjectNaturesParamater() {
+		// Given
+		MavenEclipseContext context = mock(MavenEclipseContext.class);
+		MavenEclipseConfiguration configuration = mock(MavenEclipseConfiguration.class);
+		given(context.getPluginConfiguration()).willReturn(configuration);
+		given(configuration.containsParamter(additionalBuildCommandsConfigurationHandler.getParamterName()))
+				.willReturn(true);
+
+		// When
+		boolean canHandle = additionalBuildCommandsConfigurationHandler.canHandle(context);
+
+		assertTrue(canHandle);
+	}
+
+	@Test
+	public void shouldNotClaimToHandleContextsWithoutAdditionalProjectNaturesParamater() {
+		// Given
+		MavenEclipseContext context = mock(MavenEclipseContext.class);
+		MavenEclipseConfiguration configuration = mock(MavenEclipseConfiguration.class);
+		given(context.getPluginConfiguration()).willReturn(configuration);
+		given(configuration.getParamter(additionalBuildCommandsConfigurationHandler.getParamterName()))
+				.willReturn(null);
+
+		// When
+		boolean canHandle = additionalBuildCommandsConfigurationHandler.canHandle(context);
+
+		assertFalse(canHandle);
 	}
 
 }
