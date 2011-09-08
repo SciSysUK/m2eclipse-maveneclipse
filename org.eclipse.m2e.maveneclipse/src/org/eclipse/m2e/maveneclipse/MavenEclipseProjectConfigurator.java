@@ -35,9 +35,9 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 
 	private static Logger log = LoggerFactory.getLogger(AbstractCustomizableLifecycleMapping.class);
 
-	private static final String GROUP_ID = "org.apache.maven.plugins"; //$NON-NLS-1$
+	static final String GROUP_ID = "org.apache.maven.plugins"; //$NON-NLS-1$
 
-	private static final String ARTIFACT_ID = "maven-eclipse-plugin"; //$NON-NLS-1$
+	static final String ARTIFACT_ID = "maven-eclipse-plugin"; //$NON-NLS-1$
 
 	private ConfigurationHandlers handlers = new ConfigurationHandlers();
 
@@ -69,6 +69,10 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 			log.error(msg, e);
 			throw new CoreException(new Status(IStatus.ERROR, MavenEclipsePlugin.PLUGIN_ID, -1, msg, e));
 		}
+	}
+
+	public void setHandlers(ConfigurationHandlers handlers) {
+		this.handlers = handlers;
 	}
 
 }
