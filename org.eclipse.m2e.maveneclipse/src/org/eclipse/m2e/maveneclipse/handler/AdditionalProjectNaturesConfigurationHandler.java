@@ -53,7 +53,8 @@ public class AdditionalProjectNaturesConfigurationHandler extends SingleParamete
 		IProjectDescription projectDescription = project.getDescription();
 		Set<String> natureIds = new LinkedHashSet<String>();
 		natureIds.addAll(Arrays.asList(projectDescription.getNatureIds()));
-		projectDescription.setNatureIds(additionalNatureIDs.toArray(new String[additionalNatureIDs.size()]));
+		natureIds.addAll(additionalNatureIDs);
+		projectDescription.setNatureIds(natureIds.toArray(new String[natureIds.size()]));
 		project.setDescription(projectDescription, monitor);
 	}
 }

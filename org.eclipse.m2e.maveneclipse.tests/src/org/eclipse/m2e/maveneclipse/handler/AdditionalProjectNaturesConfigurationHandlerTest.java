@@ -11,12 +11,17 @@ package org.eclipse.m2e.maveneclipse.handler;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -98,29 +103,36 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		additionalProjectNaturesConfigurationHandler.handle(context);
 
 		// Then
-
 		verify(projectDescription).setNatureIds(argument.capture());
 		verify(project).setDescription(projectDescription, monitor);
 
-		boolean hasInitialNature = false;
-		boolean hasFirstNature = false;
-		boolean hasSecondNature = false;
-		String[] newNatureIds = argument.getValue();
-		for (int i = 0; i < newNatureIds.length; i++) {
-			if (INITIAL_NATURE.equals(newNatureIds[i])) {
-				hasInitialNature = true;
-			} else if (FIRST_PROJECT_NATURE.equals(newNatureIds[i])) {
-				hasFirstNature = true;
-			} else if (SECOND_PROJECT_NATURE.equals(newNatureIds[i])) {
-				hasSecondNature = true;
-			} else {
-				fail("Unknown project nature found: " + newNatureIds[i]);
-			}
+		List<String> newNatureIds = Arrays.asList(argument.getValue());
+		assertThat(newNatureIds.size(), is(3));
+		assertTrue(newNatureIds.contains(INITIAL_NATURE));
+		assertTrue(newNatureIds.contains(FIRST_PROJECT_NATURE));
+		assertTrue(newNatureIds.contains(SECOND_PROJECT_NATURE));
+	}
 
-		}
-		assertTrue(hasInitialNature);
-		assertTrue(hasFirstNature);
-		assertTrue(hasSecondNature);
+	@Test
+	public void shouldNotChangeProjectDescriptionWhenNoAdditionalProjectNaturesConfigured() throws Exception {
+		// Given
+		MavenEclipseConfiguration mavenEclipseConfiguration = mock(MavenEclipseConfiguration.class);
+		given(context.getPluginConfiguration()).willReturn(mavenEclipseConfiguration);
+		ConfigurationParameter configurationParameter = mock(ConfigurationParameter.class);
+		given(mavenEclipseConfiguration.getParamter(additionalProjectNaturesConfigurationHandler.getParamterName()))
+				.willReturn(configurationParameter);
+		given(
+				mavenEclipseConfiguration.containsParamter(additionalProjectNaturesConfigurationHandler
+						.getParamterName())).willReturn(true);
+
+		given(configurationParameter.getChildren()).willReturn(new ArrayList<ConfigurationParameter>());
+
+		// When
+		additionalProjectNaturesConfigurationHandler.handle(context);
+
+		// Then
+		verify(project, never()).setDescription(any(IProjectDescription.class), eq(monitor));
+
 	}
 
 	@Test
