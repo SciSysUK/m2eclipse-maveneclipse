@@ -7,7 +7,7 @@
  * 
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.eclipse.m2e.maveneclipse.handler;
+package org.eclipse.m2e.maveneclipse.handler.additionalprojectnatures;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
+import org.eclipse.m2e.maveneclipse.handler.additionalprojectnatures.AdditionalProjectNaturesConfigurationHandler;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

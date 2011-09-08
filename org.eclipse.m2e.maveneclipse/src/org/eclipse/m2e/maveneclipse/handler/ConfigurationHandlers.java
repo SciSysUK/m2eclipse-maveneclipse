@@ -13,6 +13,8 @@ import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
 import org.eclipse.m2e.maveneclipse.handler.additionalbuildcommands.AdditionalBuildCommandsConfigurationHandler;
 import org.eclipse.m2e.maveneclipse.handler.additionalconfig.AdditionalConfigConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.additionalprojectfacets.AdditionalProjectFacetsConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.additionalprojectnatures.AdditionalProjectNaturesConfigurationHandler;
 
 /**
  * Performs the actual work of configuring an eclipse project from {@link MavenEclipseConfiguration} in the specified

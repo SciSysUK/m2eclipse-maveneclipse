@@ -7,7 +7,7 @@
  * 
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.eclipse.m2e.maveneclipse.handler;
+package org.eclipse.m2e.maveneclipse.handler.additionalprojectfacets;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
+import org.eclipse.m2e.maveneclipse.handler.additionalprojectfacets.AdditionalProjectFacetsConfigurationHandler;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
 import org.junit.Before;

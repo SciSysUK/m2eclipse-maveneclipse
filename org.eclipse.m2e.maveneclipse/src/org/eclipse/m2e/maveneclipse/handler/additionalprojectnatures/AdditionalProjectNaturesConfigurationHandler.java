@@ -7,7 +7,7 @@
  * 
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.eclipse.m2e.maveneclipse.handler;
+package org.eclipse.m2e.maveneclipse.handler.additionalprojectnatures;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -19,6 +19,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
+import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.SingleParameterConfigurationHandler;
 
 /**
  * A {@link ConfigurationHandler} that handles <tt>additionalprojectnatures</tt> from the <tt>maven-eclipse-plugin</tt>
