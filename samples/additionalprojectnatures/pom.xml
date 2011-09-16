@@ -16,7 +16,7 @@
 				<version>2.8</version>
 				<configuration>
 					<additionalProjectnatures>
-						<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+						<projectnature>org.eclipse.jem.workbench.JavaEMFNature</projectnature>
 					</additionalProjectnatures>
 				</configuration>
 			</plugin>

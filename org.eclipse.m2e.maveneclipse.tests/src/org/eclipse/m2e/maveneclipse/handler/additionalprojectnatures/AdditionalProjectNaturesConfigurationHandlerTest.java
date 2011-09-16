@@ -26,6 +26,9 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
@@ -50,10 +53,13 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 
 	private static final String FIRST_PROJECT_NATURE = "first";
 	private static final String SECOND_PROJECT_NATURE = "second";
+	private static final String MISSING_PROJECT_NATURE = "missing";
 
 	private static final String INITIAL_NATURE = "initial";
 
-	private AdditionalProjectNaturesConfigurationHandler additionalProjectNaturesConfigurationHandler = new AdditionalProjectNaturesConfigurationHandler();
+	private AdditionalProjectNaturesConfigurationHandler additionalProjectNaturesConfigurationHandler = new AdditionalProjectNaturesConfigurationHandler() {
+        protected org.eclipse.core.runtime.IExtensionRegistry getExtensionRegistry() {return extensionRegistry;};
+	};
 
 	@Mock
 	private MavenEclipseContext context;
@@ -68,8 +74,14 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 	private IProgressMonitor monitor;
 
 	@Captor
-	ArgumentCaptor<String[]> argument;
+	private ArgumentCaptor<String[]> argument;
 
+	@Mock
+    private IExtensionRegistry extensionRegistry;
+	
+	@Mock
+    private IExtension extension;
+	
 	@Before
 	public void setupBasicContextWithInitialNature() throws Exception {
 		given(context.getProject()).willReturn(project);
@@ -79,10 +91,16 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		given(projectDescription.getNatureIds()).willReturn(initialNatureIds);
 
 		given(context.getMonitor()).willReturn(monitor);
+        given(
+               extensionRegistry.getExtension( ResourcesPlugin.PI_RESOURCES, ResourcesPlugin.PT_NATURES,
+                                               FIRST_PROJECT_NATURE ) ).willReturn( extension );
+        given(
+              extensionRegistry.getExtension( ResourcesPlugin.PI_RESOURCES, ResourcesPlugin.PT_NATURES,
+                                              SECOND_PROJECT_NATURE ) ).willReturn( extension );
 	}
 
 	@Test
-	public void shouldAddAdditionalProjectNatures() throws Exception {
+	public void shouldAddAdditionalProjectNaturesFilteringMissing() throws Exception {
 		// Given
 		MavenEclipseConfiguration mavenEclipseConfiguration = mock(MavenEclipseConfiguration.class);
 		given(context.getPluginConfiguration()).willReturn(mavenEclipseConfiguration);
@@ -96,8 +114,10 @@ public class AdditionalProjectNaturesConfigurationHandlerTest {
 		List<ConfigurationParameter> projectNatureConfigurationParameters = new ArrayList<ConfigurationParameter>();
 		ConfigurationParameter firstProjectNature = createProjectNatureConfigParameter(FIRST_PROJECT_NATURE);
 		ConfigurationParameter secondProjectNature = createProjectNatureConfigParameter(SECOND_PROJECT_NATURE);
+        ConfigurationParameter missingProjectNature = createProjectNatureConfigParameter(MISSING_PROJECT_NATURE);
 		projectNatureConfigurationParameters.add(firstProjectNature);
 		projectNatureConfigurationParameters.add(secondProjectNature);
+        projectNatureConfigurationParameters.add(missingProjectNature);
 		given(configurationParameter.getChildren()).willReturn(projectNatureConfigurationParameters);
 
 		// When
