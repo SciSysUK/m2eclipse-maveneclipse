@@ -22,6 +22,7 @@
 		<module>org.eclipse.m2e.maveneclipse</module>
 		<module>org.eclipse.m2e.maveneclipse.feature</module>
 		<module>org.eclipse.m2e.maveneclipse.tests</module>
+		<module>org.eclipse.m2e.maveneclipse.site</module>
 	</modules>
 	<build>
 		<plugins>
