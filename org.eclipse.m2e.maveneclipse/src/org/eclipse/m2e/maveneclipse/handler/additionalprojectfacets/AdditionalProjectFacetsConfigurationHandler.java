@@ -40,23 +40,35 @@ public class AdditionalProjectFacetsConfigurationHandler extends SingleParameter
 
 	@Override
 	protected void handle(MavenEclipseContext context, ConfigurationParameter parameter) throws Exception {
+        IFacetedProject facetedProject = createFacetedProject(context.getProject());
 		Set<Action> actions = new LinkedHashSet<IFacetedProject.Action>();
 		for (ConfigurationParameter child : parameter.getChildren()) {
-			IProjectFacet facet;
-			try {
-				facet = ProjectFacetsManager.getProjectFacet(child.getName());
-			} catch (IllegalAccessError e) {
-				facet = null;
-			}
+			IProjectFacet facet = getFacetIfAvailable( child.getName() );
 			if (facet != null) {
+				
 				IProjectFacetVersion projectFacetVersion = facet.getVersion(child.getValue());
-				actions.add(new IFacetedProject.Action(IFacetedProject.Action.Type.INSTALL, projectFacetVersion, null));
+				if(!facetedProject.hasProjectFacet(projectFacetVersion)) {
+					if(facetedProject.hasProjectFacet(facet)) {
+	                    actions.add(new IFacetedProject.Action(IFacetedProject.Action.Type.VERSION_CHANGE, projectFacetVersion, null));
+					} else {
+						actions.add(new IFacetedProject.Action(IFacetedProject.Action.Type.INSTALL, projectFacetVersion, null));
+					}
+				}
 			}
 		}
 		if (actions.size() > 0) {
-			IFacetedProject facetedProject = createFacetedProject(context.getProject());
 			facetedProject.modify(actions, context.getMonitor());
 		}
+	}
+
+	private IProjectFacet getFacetIfAvailable(String id) {
+		IProjectFacet facet;
+		try {
+			facet = ProjectFacetsManager.getProjectFacet(id);
+		} catch (IllegalAccessError e) {
+			facet = null;
+		}
+		return facet;
 	}
 
 	protected IFacetedProject createFacetedProject(IProject project) throws CoreException {

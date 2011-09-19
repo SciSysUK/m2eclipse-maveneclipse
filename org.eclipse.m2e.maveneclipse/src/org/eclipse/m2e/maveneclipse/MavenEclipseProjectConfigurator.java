@@ -14,7 +14,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.m2e.core.project.configurator.AbstractCustomizableLifecycleMapping;
 import org.eclipse.m2e.core.project.configurator.AbstractProjectConfigurator;
 import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
 import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandlers;
@@ -33,13 +32,13 @@ import org.slf4j.LoggerFactory;
  */
 public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator {
 
-	private static Logger log = LoggerFactory.getLogger(AbstractCustomizableLifecycleMapping.class);
+	private static Logger log = LoggerFactory.getLogger(MavenEclipseProjectConfigurator.class);
 
 	static final String GROUP_ID = "org.apache.maven.plugins"; //$NON-NLS-1$
 
 	static final String ARTIFACT_ID = "maven-eclipse-plugin"; //$NON-NLS-1$
 
-	private ConfigurationHandlers handlers = new ConfigurationHandlers();
+	private ConfigurationHandlers handlers;
 
 	@Override
 	public void configure(ProjectConfigurationRequest request, IProgressMonitor monitor) throws CoreException {
@@ -58,6 +57,9 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 
 	private void configure(ProjectConfigurationRequest request, IProgressMonitor monitor, Plugin plugin)
 			throws CoreException {
+		if (handlers == null) {
+			handlers = new ConfigurationHandlers();
+		}
 		MavenEclipseContext context = new DefaultMavenEclipseContext(request, monitor, plugin);
 		try {
 			handlers.handle(context);
@@ -71,8 +73,7 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 		}
 	}
 
-	public void setHandlers(ConfigurationHandlers handlers) {
+	protected void setHandlers(ConfigurationHandlers handlers) {
 		this.handlers = handlers;
 	}
-
 }

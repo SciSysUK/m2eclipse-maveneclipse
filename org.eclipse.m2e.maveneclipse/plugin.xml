@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="org.eclipse.m2e.maveneclipse.configurationhandler" name="Configuration Handler for maven-eclipse-plugin" schema="schema/org.eclipse.m2e.maveneclipse.configurationhandler.exsd"/>
    <extension
          point="org.eclipse.m2e.core.projectConfigurators">
       <configurator
@@ -10,5 +11,24 @@
    </extension>
    <extension
          point="org.eclipse.m2e.core.lifecycleMappingMetadataSource">
+   </extension>
+   <extension
+         point="org.eclipse.m2e.maveneclipse.configurationhandler">
+      <handler
+            class="org.eclipse.m2e.maveneclipse.handler.additionalprojectnatures.AdditionalProjectNaturesConfigurationHandler"
+            id="org.eclipse.m2e.maveneclipse.handler.additionalprojectnatures">
+      </handler>
+      <handler
+            class="org.eclipse.m2e.maveneclipse.handler.additionalprojectfacets.AdditionalProjectFacetsConfigurationHandler"
+            id="org.eclipse.m2e.maveneclipse.handler.additionalprojectfacets">
+      </handler>
+      <handler
+            class="org.eclipse.m2e.maveneclipse.handler.additionalbuildcommands.AdditionalBuildCommandsConfigurationHandler"
+            id="org.eclipse.m2e.maveneclipse.handler.additionalbuildcommands">
+      </handler>
+      <handler
+            class="org.eclipse.m2e.maveneclipse.handler.additionalconfig.AdditionalConfigConfigurationHandler"
+            id="org.eclipse.m2e.maveneclipse.handler.additionalconfig">
+      </handler>
    </extension>
 </plugin>

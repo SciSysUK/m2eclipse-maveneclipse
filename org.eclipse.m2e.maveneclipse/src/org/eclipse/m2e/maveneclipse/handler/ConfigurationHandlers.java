@@ -9,12 +9,14 @@
  */
 package org.eclipse.m2e.maveneclipse.handler;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
-import org.eclipse.m2e.maveneclipse.handler.additionalbuildcommands.AdditionalBuildCommandsConfigurationHandler;
-import org.eclipse.m2e.maveneclipse.handler.additionalconfig.AdditionalConfigConfigurationHandler;
-import org.eclipse.m2e.maveneclipse.handler.additionalprojectfacets.AdditionalProjectFacetsConfigurationHandler;
-import org.eclipse.m2e.maveneclipse.handler.additionalprojectnatures.AdditionalProjectNaturesConfigurationHandler;
 
 /**
  * Performs the actual work of configuring an eclipse project from {@link MavenEclipseConfiguration} in the specified
@@ -25,16 +27,9 @@ import org.eclipse.m2e.maveneclipse.handler.additionalprojectnatures.AdditionalP
  */
 public class ConfigurationHandlers {
 
-	private final ConfigurationHandler[] configurationHandlers;
+	private static final String EXTENSION_POINT_ID = "org.eclipse.m2e.maveneclipse.configurationhandler";
 
-	/**
-	 * Create a {@link ConfigurationHandlers} instance with the default set of handlers.
-	 */
-	public ConfigurationHandlers() {
-		this(new ConfigurationHandler[] { new AdditionalConfigConfigurationHandler(),
-				new AdditionalProjectNaturesConfigurationHandler(), new AdditionalProjectFacetsConfigurationHandler(),
-				new AdditionalBuildCommandsConfigurationHandler() });
-	}
+	private final ConfigurationHandler[] configurationHandlers;
 
 	/**
 	 * Create a {@link ConfigurationHandlers} instance with the specified handlers.
@@ -46,6 +41,19 @@ public class ConfigurationHandlers {
 			throw new IllegalArgumentException("configurationHandlers must not be null");
 		}
 		this.configurationHandlers = configurationHandlers;
+	}
+	
+	/**
+	 * Create a {@link ConfigurationHandlers} instance with handlers loaded from extension points.
+	 * @throws CoreException 
+	 */
+	public ConfigurationHandlers() throws CoreException {
+		List<ConfigurationHandler> handlers = new ArrayList<ConfigurationHandler>(); 
+		IConfigurationElement[] configurationElements = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
+		for (IConfigurationElement configurationElement : configurationElements) {
+			handlers.add((ConfigurationHandler) configurationElement.createExecutableExtension("class"));
+		}
+		this.configurationHandlers = handlers.toArray(new ConfigurationHandler[handlers.size()]);
 	}
 
 	/**
