@@ -53,7 +53,7 @@ public class MavenEclipseProjectConfiguratorTest {
 		given(mavenEclipsePlugin.getGroupId()).willReturn(MavenEclipseProjectConfigurator.GROUP_ID);
 
 		// When
-		mavenEclipseProjectConfigurator.configure(request, monitor);
+		mavenEclipseProjectConfigurator.configureRawClasspath(request, null, monitor);
 
 		// Then
 		verify(configurationHandlers).handle(any(MavenEclipseContext.class));
@@ -71,7 +71,7 @@ public class MavenEclipseProjectConfiguratorTest {
 		given(mavenProject.getBuildPlugins()).willReturn(plugins);
 
 		// When
-		mavenEclipseProjectConfigurator.configure(request, monitor);
+		mavenEclipseProjectConfigurator.configureRawClasspath(request, null, monitor);
 
 		// Then
 		verifyZeroInteractions(configurationHandlers);

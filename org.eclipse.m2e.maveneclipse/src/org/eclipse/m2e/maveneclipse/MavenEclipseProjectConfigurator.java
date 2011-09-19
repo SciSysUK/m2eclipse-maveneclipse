@@ -16,6 +16,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.m2e.core.project.configurator.AbstractProjectConfigurator;
 import org.eclipse.m2e.core.project.configurator.ProjectConfigurationRequest;
+import org.eclipse.m2e.jdt.AbstractJavaProjectConfigurator;
+import org.eclipse.m2e.jdt.IClasspathDescriptor;
 import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandlers;
 import org.eclipse.osgi.util.NLS;
 import org.slf4j.Logger;
@@ -30,7 +32,7 @@ import org.slf4j.LoggerFactory;
  * @author Alex Clarke
  * @author Phillip Webb
  */
-public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator {
+public class MavenEclipseProjectConfigurator extends AbstractJavaProjectConfigurator {
 
 	private static Logger log = LoggerFactory.getLogger(MavenEclipseProjectConfigurator.class);
 
@@ -42,6 +44,15 @@ public class MavenEclipseProjectConfigurator extends AbstractProjectConfigurator
 
 	@Override
 	public void configure(ProjectConfigurationRequest request, IProgressMonitor monitor) throws CoreException {
+	}
+
+	@Override
+	public void configureRawClasspath(ProjectConfigurationRequest request, IClasspathDescriptor classpath,
+			IProgressMonitor monitor) throws CoreException {
+		
+		//We are not actually configuring the raw classpath but we want to run after m2e has configured 
+		//the majority of the project
+		
 		log.debug("Checking for " + GROUP_ID + ":" + ARTIFACT_ID + " plugin");
 		for (Plugin plugin : request.getMavenProject().getBuildPlugins()) {
 			if (isMavenEclipsePlugin(plugin)) {

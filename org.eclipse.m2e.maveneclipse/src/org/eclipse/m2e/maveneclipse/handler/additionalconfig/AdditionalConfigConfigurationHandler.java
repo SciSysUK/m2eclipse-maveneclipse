@@ -9,7 +9,6 @@
  */
 package org.eclipse.m2e.maveneclipse.handler.additionalconfig;
 
-
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 import org.eclipse.m2e.maveneclipse.handler.ConfigurationHandler;

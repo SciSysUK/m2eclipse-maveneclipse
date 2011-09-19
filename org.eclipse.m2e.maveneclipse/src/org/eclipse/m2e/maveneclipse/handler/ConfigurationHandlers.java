@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
+import org.eclipse.m2e.maveneclipse.handler.additionalbuildcommands.AdditionalBuildCommandsConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.additionalconfig.AdditionalConfigConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.additionalprojectfacets.AdditionalProjectFacetsConfigurationHandler;
+import org.eclipse.m2e.maveneclipse.handler.additionalprojectnatures.AdditionalProjectNaturesConfigurationHandler;
 
 /**
  * Performs the actual work of configuring an eclipse project from {@link MavenEclipseConfiguration} in the specified
@@ -26,8 +28,6 @@ import org.eclipse.m2e.maveneclipse.configuration.MavenEclipseConfiguration;
  * @author Phillip Webb
  */
 public class ConfigurationHandlers {
-
-	private static final String EXTENSION_POINT_ID = "org.eclipse.m2e.maveneclipse.configurationhandler";
 
 	private final ConfigurationHandler[] configurationHandlers;
 
@@ -42,17 +42,18 @@ public class ConfigurationHandlers {
 		}
 		this.configurationHandlers = configurationHandlers;
 	}
-	
+
 	/**
 	 * Create a {@link ConfigurationHandlers} instance with handlers loaded from extension points.
-	 * @throws CoreException 
+	 * @throws CoreException
 	 */
 	public ConfigurationHandlers() throws CoreException {
-		List<ConfigurationHandler> handlers = new ArrayList<ConfigurationHandler>(); 
-		IConfigurationElement[] configurationElements = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
-		for (IConfigurationElement configurationElement : configurationElements) {
-			handlers.add((ConfigurationHandler) configurationElement.createExecutableExtension("class"));
-		}
+		List<ConfigurationHandler> handlers = new ArrayList<ConfigurationHandler>();
+		//NOTE: order here is critical, natures must be applied before facets
+		handlers.add(new AdditionalConfigConfigurationHandler());
+		handlers.add(new AdditionalProjectNaturesConfigurationHandler());
+		handlers.add(new AdditionalProjectFacetsConfigurationHandler());
+		handlers.add(new AdditionalBuildCommandsConfigurationHandler());
 		this.configurationHandlers = handlers.toArray(new ConfigurationHandler[handlers.size()]);
 	}
 

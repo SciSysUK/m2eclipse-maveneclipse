@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.m2e.maveneclipse.MavenEclipseContext;
 import org.eclipse.m2e.maveneclipse.configuration.ConfigurationParameter;
 
@@ -44,7 +45,10 @@ abstract class FileParameter {
 		String name = fileParameter.getChild("name").getValue();
 		IFile projectFile = context.getProject().getFile(name);
 		if (projectFile.exists()) {
-			projectFile.delete(true, context.getMonitor());
+			try {
+				projectFile.delete(true, context.getMonitor());
+			} catch (CoreException e) {
+			}
 		}
 		InputStream content = getContent();
 		try {

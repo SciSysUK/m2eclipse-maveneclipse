@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.m2e.maveneclipse" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.m2e.maveneclipse" id="org.eclipse.m2e.maveneclipse.configurationhandler" name="Configuration Handler for maven-eclipse-plugin"/>
+         <meta.schema plugin="org.eclipse.m2e.maveneclipse" id="org.eclipse.m2e.maveneclipse.facetconfigprovider" name="Facet Config Provider for maven-eclipse-plugin"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -17,8 +17,8 @@
          </appinfo>
       </annotation>
       <complexType>
-         <sequence>
-            <element ref="handler" minOccurs="1" maxOccurs="unbounded"/>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="facetconfigprovider"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,32 +47,23 @@
       </complexType>
    </element>
 
-   <element name="handler">
+   <element name="facetconfigprovider">
       <complexType>
-         <sequence>
-         </sequence>
-         <attribute name="id" type="string" use="required">
+         <attribute name="facetid" type="string">
             <annotation>
                <documentation>
                   
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="class" type="string" use="required">
+         <attribute name="class" type="string">
             <annotation>
                <documentation>
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.m2e.maveneclipse.handler.ConfigurationHandler"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.m2e.maveneclipse.handler.additionalprojectfacets.FacetConfigProvider"/>
                </appinfo>
-            </annotation>
-         </attribute>
-         <attribute name="name" type="string">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
             </annotation>
          </attribute>
       </complexType>

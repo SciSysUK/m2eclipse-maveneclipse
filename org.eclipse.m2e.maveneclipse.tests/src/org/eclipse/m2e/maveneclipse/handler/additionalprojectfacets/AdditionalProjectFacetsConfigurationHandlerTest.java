@@ -92,7 +92,7 @@ public class AdditionalProjectFacetsConfigurationHandlerTest {
 
 	private class MockAdditionalProjectFacetsConfigurationHandler extends AdditionalProjectFacetsConfigurationHandler {
 		@Override
-		protected IFacetedProject createFacetedProject(IProject project) throws CoreException {
+		protected IFacetedProject createFacetedProject(MavenEclipseContext context) throws CoreException {
 			return facetedProject;
 		}
 	}
