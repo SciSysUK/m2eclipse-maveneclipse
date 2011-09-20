@@ -2,14 +2,12 @@
 <lifecycleMappingMetadata>
 	<pluginExecutions>
 		<pluginExecution>
-			<!-- The maven-eclipse-plugin goals are not usually bound to any lifecycle 
-				so instead we hook into the maven-clean-plugin -->
 			<pluginExecutionFilter>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<versionRange>[1.0,)</versionRange>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<versionRange>[2.0,)</versionRange>
 				<goals>
-					<goal>clean</goal>
+					<goal>compile</goal>
 				</goals>
 			</pluginExecutionFilter>
 			<action>

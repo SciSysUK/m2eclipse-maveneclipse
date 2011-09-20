@@ -6,7 +6,8 @@
          point="org.eclipse.m2e.core.projectConfigurators">
       <configurator
             class="org.eclipse.m2e.maveneclipse.MavenEclipseProjectConfigurator"
-            id="org.eclipse.m2.maveneclipse.configurator">
+            id="org.eclipse.m2.maveneclipse.configurator"
+            secondaryTo="org.eclipse.m2e.jdt.javaConfigurator">
       </configurator>
    </extension>
    <extension
