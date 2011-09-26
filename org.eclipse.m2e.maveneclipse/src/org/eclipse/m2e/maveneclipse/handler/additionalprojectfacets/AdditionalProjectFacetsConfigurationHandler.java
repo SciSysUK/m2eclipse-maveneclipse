@@ -50,8 +50,11 @@ public class AdditionalProjectFacetsConfigurationHandler extends SingleParameter
 			if (projectFacet != null) {
 				IProjectFacetVersion projectFacetVersion = projectFacet.getVersion(child.getValue());
 				FacetConfigProvider configProvider = getFacetConfigProvider(projectFacet);
-				Object config = configProvider == null ? null : configProvider.getFacetConfig(context,
-						projectFacetVersion);
+				Object config = null;
+				if(configProvider != null) {
+					configProvider.prepare(context);
+					config = configProvider.getFacetConfig(context, projectFacetVersion);
+				}
 				if (!facetedProject.hasProjectFacet(projectFacetVersion)) {
 					if (facetedProject.hasProjectFacet(projectFacet)) {
 						actions.add(new IFacetedProject.Action(IFacetedProject.Action.Type.VERSION_CHANGE,
