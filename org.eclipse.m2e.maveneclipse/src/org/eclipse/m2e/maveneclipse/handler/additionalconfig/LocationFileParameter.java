@@ -29,7 +29,12 @@ class LocationFileParameter extends FileParameter {
 	@Override
 	protected InputStream getContent() throws Exception {
 		String location = getChildValue();
-		File locationFile = new File(locationRoot, location);
+		File locationFile;
+		if(location.startsWith("/") || location.startsWith("\\")) {
+			locationFile = new File(location);
+		} else {
+			locationFile = new File(locationRoot, location);
+		}
 		if (!locationFile.exists()) {
 			throw new IllegalStateException("Location file " + locationFile.getAbsolutePath() + " does not exist");
 		}
